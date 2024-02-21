@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b1aedd477d04e4fa634a7c0eadb02f, type: 3}
+  m_Name: AnyToInvestigateContactTransition
+  m_EditorClassIdentifier: 
+  decision: {fileID: 11400000, guid: b75676fe3e7cbae4094cc016ebcea635, type: 2}
+  trueState: {fileID: 11400000, guid: f530a0b94f348a4479ba3af4e8f28d28, type: 2}
+  falseState: {fileID: 11400000, guid: c83ee947709baba4cbb707dade18193b, type: 2}

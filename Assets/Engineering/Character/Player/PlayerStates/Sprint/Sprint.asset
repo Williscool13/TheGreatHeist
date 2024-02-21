@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d83bee76c4fe5c439d24e8fd3b6f37b, type: 3}
+  m_Name: Sprint
+  m_EditorClassIdentifier: 
+  Actions:
+  - {fileID: 11400000, guid: 04e8ece9e8ff3a44fb4f327062880883, type: 2}
+  - {fileID: 11400000, guid: 670b4ce6bc398fe4c8ccaa0388d27cec, type: 2}
+  - {fileID: 11400000, guid: f45ddf98e72201a4581681a03da6aa56, type: 2}
+  - {fileID: 11400000, guid: c255ccad0fd949545b0e869e17b62a89, type: 2}
+  - {fileID: 11400000, guid: dd6f2e7565648844e860811ed6ad6721, type: 2}
+  Transitions:
+  - {fileID: 11400000, guid: 38032ccd44e298549880a61bfd161746, type: 2}
+  - {fileID: 11400000, guid: 21503535e1dce704785a5cc9280c0b02, type: 2}
+  - {fileID: 11400000, guid: 1eff14a5bd920ff4ab83d9c39e3d0f89, type: 2}
