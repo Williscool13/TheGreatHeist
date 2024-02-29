@@ -1,7 +1,7 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -34,6 +34,10 @@ public class FlareManager : MonoBehaviour
 
     float currentFlareTimestamp = 0;
 
+    public float CooldownLeft { get { return currentFlareTimestamp - Time.time; } }
+    public float CooldownTime { get { return cooldownTime; } }
+    public event EventHandler OnFlareLaunched;
+
     private void Start() {
         flarePool = new ObjectPool<LightFlare>(FlareCreate, FlareOnTakeFromPool, FlareOnReleaseToPool, FlareOndestroyFromPool, true, 10, 60);
     }
@@ -56,18 +60,14 @@ public class FlareManager : MonoBehaviour
         f.Initialize(flareLaunchTransform.position, 1, 10, 10, flarePool);
         Vector2 m = aim.GetMousePositionWorld();
         Vector2 dir = m - (Vector2)flareLaunchTransform.position;
-        f.Launch(dir.normalized * (flareForce + Random.Range(-2.0f, 2.0f)), Mathf.Sign(Random.value) * (flareTorque + Random.Range(-2.0f, 2.0f)));
+        f.Launch(dir.normalized * (flareForce + UnityEngine.Random.Range(-2.0f, 2.0f)), Mathf.Sign(UnityEngine.Random.value) * (flareTorque + UnityEngine.Random.Range(-2.0f, 2.0f)));
 
         currentFlareTimestamp = Time.time + cooldownTime;
+        OnFlareLaunched?.Invoke(this, EventArgs.Empty);
 
         flareSound.PlayOneShot(flareLaunchSound);
 
 
-    }
-
-    [Button("Test Flare")]
-    void TestFlare() {
-       
     }
 
 

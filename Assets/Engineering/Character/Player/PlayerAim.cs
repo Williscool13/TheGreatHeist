@@ -12,7 +12,7 @@ public class PlayerAim : MonoBehaviour
 
     public bool Stunned { get; set; } = false;
 
-    [SerializeField] RectTransform crosshair;
+    [SerializeField] Transform crosshair;
     [ReadOnly][SerializeField] float crosshairSpeed = 0.35f;
     [SerializeField] private FloatReference mouseSensitivity;
     [SerializeField] private StringReference controlScheme;
@@ -20,13 +20,11 @@ public class PlayerAim : MonoBehaviour
     [ReadOnly][Tooltip("Rotation Speed is in Degrees")][SerializeField] float characterRotationSpeed = 1080f;
 
 
-    float lowerResolution = 1f;
     bool controller = false;
+
     private void Start() {
         cachedCamera = Camera.main;
-        lowerResolution = Mathf.Max(Screen.width, Screen.height) / 1080f;
         if (controlScheme.Value == ControlScemes.Gamepad) {
-            crosshair.gameObject.SetActive(false);
             controller = true;
         }
     }
@@ -37,29 +35,32 @@ public class PlayerAim : MonoBehaviour
         characterRotationSpeed = rotationSpeed;
     }
 
-    public void Look(Vector2 looKDelta) {
+    public void Look(Vector2 lookDelta) {
         //MoveCrosshairToMousePosition();
         Vector2 lookDir;
         if (controller) { 
-            if (looKDelta.magnitude < 0.1f) { return; }
-            lookDir = looKDelta;
+            if (lookDelta.magnitude < 0.1f) { return; }
+            lookDir = lookDelta;
+            crosshair.position = transform.position + transform.right * 5.0f;
         }
         else { 
             lookDir = (Vector2)crosshair.position - (Vector2)transform.position; 
+            crosshair.position = (Vector2)crosshair.position + (Time.deltaTime * mouseSensitivity.Value * lookDelta);
         }
 
-        CustomLook(looKDelta, lookDir);
+        ClampCrosshairToScreen();
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.forward, lookDir) * Quaternion.Euler(0, 0, 90.0f), characterRotationSpeed * Time.deltaTime);
 
     }
 
     public void CustomLook(Vector2 lookDelta, Vector2 customLookDir) {
+        //MoveCrosshairToMousePosition();
         crosshair.position = (Vector2)crosshair.position + (Time.deltaTime * mouseSensitivity.Value * lookDelta);
 
-        // code to ensure that the crosshair stays within the screen
         ClampCrosshairToScreen();
 
 
-        //MoveCrosshairToMousePosition();
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.forward, customLookDir) * Quaternion.Euler(0, 0, 90.0f), characterRotationSpeed * Time.deltaTime);
     }
@@ -76,26 +77,11 @@ public class PlayerAim : MonoBehaviour
         crosshair.position = new Vector2(Mathf.Clamp(crosshair.position.x, bottomleft.x, topRight.x), Mathf.Clamp(crosshair.position.y, bottomleft.y, topRight.y));
     }
 
-    void MoveCrosshairToMousePosition() {
-        Vector2 mousePos = GetMousePositionWorld();
-        Vector2 distance = mousePos - (Vector2)crosshair.position;
-        distance *= crosshairSpeed * lowerResolution * Time.deltaTime;
-
-
-        if (Vector2.Distance(mousePos, (Vector2)crosshair.position) < distance.magnitude) {
-            crosshair.position = mousePos;
-        }
-        else {
-            crosshair.position += (Vector3)distance;
-        }
-    }
-
     public Vector2 GetMousePositionRaw() {
         return Input.mousePosition;
     }
 
     public Vector2 GetMousePositionWorld() {
-        if (controller) { return transform.position + transform.right * 5.0f; }
         return crosshair.position;
         //return cachedCamera.ScreenToWorldPoint(Input.mousePosition);
     }

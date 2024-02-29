@@ -18,6 +18,9 @@ public class PlayerLoadoutManager : MonoBehaviour
 
 
     public event EventHandler<LoadoutChangeEventArgs> OnLoadoutChanged;
+    public event EventHandler OnShoot;
+    public event EventHandler OnReload;
+
 
     void Start()
     {
@@ -66,6 +69,20 @@ public class PlayerLoadoutManager : MonoBehaviour
         if (CurrentLoadout == LoadoutType.Unarmed) { return; }
 
         CurrentWeapon.Shoot(target); 
+        OnShoot?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool CanReload(bool press, bool sprinting) {
+        return false;
+    }
+
+
+    [Button("Test Reload")]
+    public void Reload() {
+        if (CurrentLoadout == LoadoutType.Unarmed) { return; }
+
+        //CurrentWeapon.Reload();
+        OnReload?.Invoke(this, EventArgs.Empty);
     }
 
 
