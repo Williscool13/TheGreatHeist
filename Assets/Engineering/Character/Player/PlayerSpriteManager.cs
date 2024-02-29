@@ -36,7 +36,7 @@ public class PlayerSpriteManager : MonoBehaviour
     }
 
 
-    void SpriteUpdate(PlayerLoadoutManager.LoadoutType l, CharacterMovement.Movement m) {
+    void SpriteUpdate(LoadoutType l, CharacterMovement.Movement m) {
         /*switch (l) {
             case PlayerLoadoutManager.LoadoutType.Pistol:
                 spriteRenderer.sprite = pistolSprite;

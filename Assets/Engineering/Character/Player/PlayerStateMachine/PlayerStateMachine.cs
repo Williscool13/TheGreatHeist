@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayerFiniteStateMachine;
 using Sirenix.OdinInspector;
+using ScriptableObjectDependencyInjection;
 public class PlayerStateMachine : MonoBehaviour, IStunnable
 {
     [field: SerializeField]
     [field: ReadOnly]
     public PlayerState CurrentState { get; private set; }
+
+
 
     [SerializeField] private PlayerState startingState;
 
@@ -69,10 +72,10 @@ public class PlayerStateMachine : MonoBehaviour, IStunnable
 
     #region Aim Functions
     public void Look() {
-        aim.Look();
+        aim.Look(look);
     }
-    public void CustomLook(Vector2 lookDir, bool crosshairMove) {
-        aim.CustomLook(lookDir, crosshairMove);
+    public void CustomLook(Vector2 lookDir) {
+        aim.CustomLook(look, lookDir);
     }
     public void SetAimProperties(float speed, float rotationSpeed) {
         aim.SetAimProperties(speed, rotationSpeed);

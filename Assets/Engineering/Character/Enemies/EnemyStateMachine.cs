@@ -22,6 +22,7 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] EnemyAim aim;
     [SerializeField] HealthSystem healthSystem;
     [SerializeField] EnemyAttention attention;
+    [SerializeField] EnemyCorporeality corporeality;
 
     [Title("Vision")]
     [SerializeField] float fieldOfView = 90;
@@ -66,6 +67,7 @@ public class EnemyStateMachine : MonoBehaviour
     public EnemyAim Aim => aim;
     public HealthSystem HealthSystem => healthSystem;
     public EnemyAttention Attention => attention;
+    public EnemyCorporeality Corporeality => corporeality;
 
     public Patrol PatrolRoute => patrolRoute;
     public int PatrolIndex { get; private set; }
@@ -89,8 +91,12 @@ public class EnemyStateMachine : MonoBehaviour
     public int InvestigateTimeout => (int)investigateTimeout;
     public List<GameObject> PreviousInvestigatedFlares { get => previousInvestigatedFlares; set => previousInvestigatedFlares = value; }
 
+
+    private EnemyCollisionData previousCollisionData = new EnemyCollisionData() { isColliding = false };
+    public EnemyCollisionData PreviousCollisionData => previousCollisionData;
+
     public void OnFlareReleased_RemoveFromInvestigatedFlares(object o, LightFlare flare) {
-        if (previousInvestigatedFlares.Contains(flare.gameObject)){
+        if (previousInvestigatedFlares.Contains(flare.gameObject)) {
             previousInvestigatedFlares.Remove(flare.gameObject);
         }
         if (o is LightFlare l) {
@@ -113,8 +119,7 @@ public class EnemyStateMachine : MonoBehaviour
             SetInvestigationPoint(e.targetPosition);
         };
     }
-    void Update()
-    {
+    void Update() {
         CurrentState.Execute(this);
     }
     public void ChangeState(EnemyState state) {
@@ -225,8 +230,13 @@ public class EnemyStateMachine : MonoBehaviour
 
     #endregion
 
-    private EnemyCollisionData previousCollisionData = new EnemyCollisionData() { isColliding = false };
-    public EnemyCollisionData PreviousCollisionData => previousCollisionData;
+    public void DisableAllEnemyComponents() {
+        aim.enabled = false;
+        movement.enabled = false;
+        attention.enabled = false;
+    }
+
+
 
     private void OnCollisionStay2D(Collision2D collision) {
         if (collision.collider.CompareTag("Player")) {
@@ -250,7 +260,7 @@ public class EnemyStateMachine : MonoBehaviour
 #endif
 
     // to tell other components if enemy is colliding with player
-    public struct EnemyCollisionData 
+    public struct EnemyCollisionData
     {
         public bool isColliding;
         public float collisionTimestamp;
@@ -259,7 +269,7 @@ public class EnemyStateMachine : MonoBehaviour
         public Vector2 collisionPoint;
         public Vector2 collisionNormal;
         public Vector2 collisionDirection;
-        
+
     }
 
     public struct InvestigateData

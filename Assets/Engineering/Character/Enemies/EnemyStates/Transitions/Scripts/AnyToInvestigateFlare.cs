@@ -15,12 +15,15 @@ namespace EnemyFiniteStateMachine
                         continue;
                     }
 
+                    LightFlare f = flares[i].GetComponent<LightFlare>();
+                    if (!f.Active) continue;
+
                     Vector2 dir = (flares[0].transform.position - machine.transform.position).normalized;
 
                     RaycastHit2D hit = Physics2D.Raycast(machine.GetWorldShootPoint(), dir, machine.ViewDistance, machine.ObstacleFlareLayerMask);
                     if (hit.collider != null && hit.collider.CompareTag("Flare")) {
                         machine.PreviousInvestigatedFlares.Add(flares[i].gameObject);
-                        flares[i].GetComponent<LightFlare>().OnFlareRelease += machine.OnFlareReleased_RemoveFromInvestigatedFlares; 
+                        f.OnFlareRelease += machine.OnFlareReleased_RemoveFromInvestigatedFlares; 
                         //machine.SetInvestigationPoint((Vector2)flares[i].transform.position - dir);
                         machine.Attention.IncreaseAttention(0.5f, flares[i].transform.position);
                         

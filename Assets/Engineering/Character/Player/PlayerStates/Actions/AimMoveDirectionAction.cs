@@ -17,7 +17,7 @@ namespace PlayerFiniteStateMachine
             if (machine.IsStunned()) { return; }
 
             Vector2 lookDir = machine.GetLastMovementDirection();
-            machine.CustomLook(lookDir, true);
+            machine.CustomLook(lookDir);
         }
 
         public override void Exit(PlayerStateMachine machine) {

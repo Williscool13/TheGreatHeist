@@ -31,6 +31,9 @@ public class FlareManager : MonoBehaviour
     ObjectPool<LightFlare> flarePool;
     [SerializeField][ReadOnly] int currentFlareCount = 0;
 
+
+    float currentFlareTimestamp = 0;
+
     private void Start() {
         flarePool = new ObjectPool<LightFlare>(FlareCreate, FlareOnTakeFromPool, FlareOnReleaseToPool, FlareOndestroyFromPool, true, 10, 60);
     }
@@ -39,6 +42,8 @@ public class FlareManager : MonoBehaviour
         if (!press) { return false; }
 
         if (currentFlareCount >= maxFlareCount) { return false; }
+
+        if (cooldownEnabled && Time.time < currentFlareTimestamp) { return false; }
 
         return true;
     }
@@ -53,7 +58,11 @@ public class FlareManager : MonoBehaviour
         Vector2 dir = m - (Vector2)flareLaunchTransform.position;
         f.Launch(dir.normalized * (flareForce + Random.Range(-2.0f, 2.0f)), Mathf.Sign(Random.value) * (flareTorque + Random.Range(-2.0f, 2.0f)));
 
+        currentFlareTimestamp = Time.time + cooldownTime;
+
         flareSound.PlayOneShot(flareLaunchSound);
+
+
     }
 
     [Button("Test Flare")]

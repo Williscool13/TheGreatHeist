@@ -13,6 +13,7 @@ public class PowerBox : MonoBehaviour, ITarget
     [SerializeField] private NullEvent mainPowerShutoffEvent;
     [SerializeField] private NullEvent backupPowerEnabledEvent;
     [SerializeField][ReadOnly] float currHealth = 100;
+    [SerializeField][Range(0, 1.5f)] private float lightsOutDelay = 0.5f;
 
     [Title("Sound")]
     [SerializeField] private AudioClip powerBoxHitSound;
@@ -35,8 +36,9 @@ public class PowerBox : MonoBehaviour, ITarget
             destroyedParticles.Play();
             mainPowerShutoffEvent.Raise(null);
             DOTween.Sequence()
-                .AppendInterval(1.0f)
+                .AppendInterval(lightsOutDelay)
                 .Append(DOTween.To(() => mainLight.intensity, x => mainLight.intensity = x, 0, 1.5f))
+                .AppendInterval(1.5f - lightsOutDelay)
                 .Play()
                 .onComplete += () => { backupPowerEnabledEvent.Raise(null); audioSource.PlayOneShot(backupPowerupSound); };
                 

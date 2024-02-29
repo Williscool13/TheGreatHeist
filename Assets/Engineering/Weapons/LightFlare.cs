@@ -13,10 +13,14 @@ public class LightFlare : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Light2D light2D;
     [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private float activationDelay = 0.5f;
     float targetIntensity;
     float lifetimeTimer = 0;
     bool active;
     bool shrinking;
+
+    public bool Active { get => active; }
 
     ObjectPool<LightFlare> ownerFlarePool;
     public event EventHandler<LightFlare> OnFlareRelease;
@@ -37,9 +41,14 @@ public class LightFlare : MonoBehaviour
     public void Launch(Vector2 velocity, float torque) {
         rb.AddTorque(torque);
         rb.AddForce(velocity, ForceMode2D.Impulse);
-        DOTween.To(() => light2D.intensity, x => light2D.intensity = x, targetIntensity, 1f);
-        DOTween.To(() => audioSource.volume, x => audioSource.volume = x, 0.5f, 1f);
-        active = true;
+
+        DOTween.Sequence()
+            .AppendInterval(activationDelay)
+            .AppendCallback(() => {
+                DOTween.To(() => light2D.intensity, x => light2D.intensity = x, targetIntensity, 1f);
+                DOTween.To(() => audioSource.volume, x => audioSource.volume = x, 0.5f, 1f);
+                active = true;
+            });
     }
 
     private void Update() {
@@ -51,7 +60,7 @@ public class LightFlare : MonoBehaviour
         if (active) {
             lifetimeTimer -= Time.deltaTime;
             if (lifetimeTimer <= 0) {
-                OnFlareRelease.Invoke(this, this);
+                OnFlareRelease?.Invoke(this, this);
                 ownerFlarePool.Release(this);
                 active = false;
             }

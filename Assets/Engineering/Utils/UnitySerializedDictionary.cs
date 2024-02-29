@@ -29,4 +29,4 @@ public abstract class UnitySerializedDictionary<TKey, TValue> : Dictionary<TKey,
 }
 
 [Serializable]
-public class WeaponLoadoutDictionary : UnitySerializedDictionary<PlayerLoadoutManager.LoadoutType, WeaponLoadout> { }
+public class WeaponLoadoutDictionary : UnitySerializedDictionary<LoadoutType, WeaponLoadout> { }

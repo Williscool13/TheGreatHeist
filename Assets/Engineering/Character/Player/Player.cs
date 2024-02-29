@@ -1,3 +1,4 @@
+using ScriptableObjectDependencyInjection;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,13 @@ public class Player : MonoBehaviour
     bool dashHeld;
 
     [SceneObjectsOnly][SerializeField] private PlayerStateMachine playerCharacter;
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private StringReference controlScheme;
+
+    private void Start() {
+        playerInput.defaultControlScheme = controlScheme.Value;
+        //playerInput.SwitchCurrentControlScheme(controlScheme.Value);
+    }
 
     private void Update() {
         playerCharacter.SetInputs(move, look, firePressed, fireHeld, recoverPressed, recoverHeld, flarePressed, flareHeld, sprintPressed, sprintHeld, dashPressed, dashHeld);
@@ -51,7 +59,18 @@ public class Player : MonoBehaviour
         } else {
             fireHeld = false;
         }
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
+
+    public void OnMenu(InputValue value) {
+        if (value.isPressed) {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
 
     public void OnRecover(InputValue value) {
         if (value.isPressed) {
@@ -78,7 +97,7 @@ public class Player : MonoBehaviour
     }
 
     public void OnSprint(InputValue value) {
-        if (value.isPressed) {
+        /*if (value.isPressed) {
             sprintPressed = true;
         }
 
@@ -87,7 +106,7 @@ public class Player : MonoBehaviour
         }
         else {
             sprintHeld = false;
-        }
+        }*/
     }
 
     public void OnDash(InputValue value) {
@@ -102,4 +121,11 @@ public class Player : MonoBehaviour
             dashHeld = false;
         }
     }
+}
+
+
+public static class ControlScemes
+{
+    public static string KeyboardMouse = "Keyboard&Mouse";
+    public static string Gamepad = "Gamepad";
 }

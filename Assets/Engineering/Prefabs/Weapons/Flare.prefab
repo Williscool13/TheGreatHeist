@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.5896226, b: 0.5896226, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4885,6 +4885,7 @@ MonoBehaviour:
   rb: {fileID: 742708840169322969}
   light2D: {fileID: 1204452704306623748}
   audioSource: {fileID: 2454441728175488484}
+  activationDelay: 0.75
 --- !u!212 &7542572003220337111
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4969,7 +4970,7 @@ MonoBehaviour:
   m_NormalMapQuality: 2
   m_UseNormalMap: 0
   m_ShadowsEnabled: 1
-  m_ShadowIntensity: 0.75
+  m_ShadowIntensity: 1
   m_ShadowSoftness: 0.3
   m_ShadowSoftnessFalloffIntensity: 0.5
   m_ShadowVolumeIntensityEnabled: 0

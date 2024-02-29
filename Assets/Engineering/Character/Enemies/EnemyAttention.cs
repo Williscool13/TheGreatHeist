@@ -30,6 +30,12 @@ public class EnemyAttention : MonoBehaviour
     [ShowIf("requiresCorporeality")]
     [SerializeField] private EnemyCorporeality corporeality;
 
+    [Title("Color")]
+    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Color alertedColor = Color.red;
+    [SerializeField] private Color investigateColor = Color.yellow;
+    [SerializeField] private Color idleColor = Color.green;
+
     public event EventHandler<AttentionInvestigateEventArgs> OnAttentionInvestigate;
     public event EventHandler<AttentionAlertEventArgs> OnAttentionAlert;
 
@@ -39,6 +45,20 @@ public class EnemyAttention : MonoBehaviour
 
     public float AttentionValue { get => attentionValue; }
     public float AttentionThreshold { get => attentionThreshold; }
+
+
+    private void Update() {
+        if (attentionValue <= 0) {
+            sprite.material.SetColor("_Outline_Color", idleColor);
+        } else {
+            Color tarCol = Color.Lerp(investigateColor, alertedColor, attentionValue / attentionThreshold);
+            sprite.material.SetColor("_Outline_Color", tarCol);
+        }
+    }
+
+    public void SetSpriteOutlineColor(Color col) {
+        sprite.material.SetColor("_Outline_Color", col);
+    }
 
     public bool IsAttentionAlerted() {
         return attentionValue >= attentionThreshold;

@@ -6,6 +6,15 @@
             "id": "2b251670-96d1-4457-9c27-58b0e41dca24",
             "actions": [
                 {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "25982e8a-d69c-4bd0-a1c2-91d44b26f6ad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "d1b3321d-7df5-47c1-84de-81725d651acc",
@@ -54,7 +63,7 @@
                     "name": "Sprint",
                     "type": "Value",
                     "id": "e5f27199-4ced-4df4-b972-0cf79b074f99",
-                    "expectedControlType": "Integer",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -63,10 +72,19 @@
                     "name": "Dash",
                     "type": "Value",
                     "id": "60e597b0-649c-4146-a346-0f599d089917",
-                    "expectedControlType": "Integer",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "d19f6a42-1403-4334-8ee4-2b62f68e68b3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -381,7 +399,7 @@
                 {
                     "name": "",
                     "id": "f32f4566-5f74-4023-b941-307e5f2ddd27",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -403,11 +421,44 @@
                 {
                     "name": "",
                     "id": "70e0963e-8317-4732-a200-877ed8b0356a",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "90683e44-9ed2-42da-958f-3c5c49257786",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b737b07b-0bdf-4bdc-8fad-c39902d1b54a",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea39d64a-5cc9-40dd-b7af-d6668efbbfda",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

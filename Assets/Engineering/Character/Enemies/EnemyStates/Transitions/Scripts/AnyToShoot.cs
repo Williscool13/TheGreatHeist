@@ -9,6 +9,10 @@ namespace EnemyFiniteStateMachine
     [CreateAssetMenu(menuName = "Enemy/Decisions/AnyToShoot")]
     public class AnyToShoot : EnemyStateDecision
     {
+        [SerializeField] private float attentionDistanceCutoff = 0.5f;
+        [SerializeField] private float maxAttentionStrength = 5.0f;
+        [SerializeField] private float cutoffAttentionStrength = 2.5f;
+        [SerializeField] private float minAttentionStrength = 0.2f;
         public override bool Decide(EnemyStateMachine machine) {
             // have this be over time and not instant. if off screen, have an arrow on player screen to show enemy spots player
             RaycastHit2D[] rhs = Physics2D.CircleCastAll(machine.GetWorldShootPoint(), machine.ViewDistance, Vector2.zero, 0, machine.TargetLayerMask);
@@ -26,10 +30,12 @@ namespace EnemyFiniteStateMachine
                     if (hit.collider != null && hit.collider.CompareTag("Player")) {
 
                         float distance = Vector2.Distance(machine.GetWorldShootPoint(), hit.point);
-                        //float attenuation = Mathf.Lerp(3.0f, 0.2f, Mathf.Clamp01(distance / machine.ViewDistance));
-                        float half = machine.ViewDistance * 0.5f;
-                        float attenuation = 1 - Mathf.Clamp01((distance - half) / (machine.ViewDistance - half));
+                        float half = machine.ViewDistance * attentionDistanceCutoff;
+
+                        float attenuation = Mathf.Lerp(cutoffAttentionStrength, minAttentionStrength,
+                                Mathf.Clamp01((distance - half) / (machine.ViewDistance - half)));
                         
+                        Debug.Log("[ENEMYSTATEMACHINE] Attenuation is " + attenuation);
                         machine.Attention.IncreaseAttention(
                             attenuation * Time.deltaTime, 
                             rh.point, 

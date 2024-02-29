@@ -8,13 +8,12 @@ using UnityEngine.InputSystem;
 public class PlayerLoadoutManager : MonoBehaviour
 {
     public LoadoutType CurrentLoadout { get; private set; } = LoadoutType.Unarmed;
-    public Weapon CurrentWeapon { get; private set; } = null;
+    [SerializeField][ReadOnly] public Weapon CurrentWeapon { get; private set; } = null;
 
 
     [SerializeField] LoadoutConfig[] loadoutConfigs;
 
 
-    [SerializeField] LoadoutType startingLoadout;
     [SerializeField][SceneObjectsOnly] Weapon startingWeapon;
 
 
@@ -22,17 +21,11 @@ public class PlayerLoadoutManager : MonoBehaviour
 
     void Start()
     {
-        ChangeLoadout(startingLoadout, startingWeapon);
+        if (startingWeapon != null) { ChangeLoadout(startingWeapon.LoadoutType, startingWeapon); }
     }
 
     public void ChangeLoadout(LoadoutType loadout, Weapon weapon) {
 
-        // drop current weapon (i.e. spawn weapon pickup and set its remaining ammo to current ammo)
-        /*if (CurrentWeapon != null) {
-            CurrentWeapon.gameObject.SetActive(false);
-        }
-        CurrentWeapon.Unequip();
-         */
         LoadoutChangeEventArgs args = new LoadoutChangeEventArgs() { previous = CurrentLoadout, current = loadout };
         CurrentLoadout = loadout;
         OnLoadoutChanged?.Invoke(this, args);
@@ -56,6 +49,7 @@ public class PlayerLoadoutManager : MonoBehaviour
     }
 
     public bool CanShoot(bool press, bool sprinting) {
+        if (CurrentLoadout == LoadoutType.Unarmed) { return false; }
 
         if (CurrentLoadout == LoadoutType.Rifle || CurrentLoadout == LoadoutType.Pistol || CurrentLoadout == LoadoutType.SurpressedRifle) {
 
@@ -69,16 +63,11 @@ public class PlayerLoadoutManager : MonoBehaviour
     }
 
     public void Shoot(Vector2 target) {
+        if (CurrentLoadout == LoadoutType.Unarmed) { return; }
+
         CurrentWeapon.Shoot(target); 
     }
 
-    public enum LoadoutType {
-        Rifle,
-        Pistol,
-        SurpressedRifle,
-        Carryable,
-        Unarmed
-    }
 
     [Serializable]
     struct LoadoutConfig {

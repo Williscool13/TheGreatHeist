@@ -6,32 +6,35 @@ using UnityEngine;
 public class EnemyAttentionMark : MonoBehaviour
 {
     [Title("Follow Target")]
-    [SerializeField] Collider2D targetHitbox;
+    [SerializeField] Transform followTarget;
     [SerializeField] float heightOffset = 1.3f;
-    [SerializeField] float lerpSpeed = 0.1f;
 
     [Title("Color")]
     [SerializeField] EnemyAttention attention;
     [SerializeField] Color alertedColor = Color.red;
-    [SerializeField] Color investigateColor = Color.yellow;
+    [SerializeField] Color investigateColor = new Color(255.0f / 255.0f, 165.0f / 255.0f, 0.0f);
+    [SerializeField] Color idleColor = Color.yellow;
 
     [SerializeField] SpriteRenderer spriteRenderer;
 
+    private void Start() {
+        transform.parent = null;
+    }
 
-    void Update()
-    {
-        float targetYOffset = targetHitbox.bounds.extents.y * heightOffset;
-        float lerpY = Mathf.Lerp(transform.localPosition.y, targetYOffset, lerpSpeed);
-        float lerpX = Mathf.Lerp(transform.localPosition.x, 0, lerpSpeed);
-        
-        transform.position = targetHitbox.transform.position + new Vector3(lerpX, lerpY, 0);
+    void Update() {
+        transform.position = followTarget.position + new Vector3(0, heightOffset, 0);
         transform.rotation = Quaternion.identity;
 
         if (attention.AttentionValue <= 0) {
             spriteRenderer.enabled = false;
-        } else {
+        }
+        else if (attention.AttentionValue >= attention.AttentionThreshold) {
             spriteRenderer.enabled = true;
-            spriteRenderer.color = Color.Lerp(investigateColor, alertedColor, attention.AttentionValue / attention.AttentionThreshold);
+            spriteRenderer.color = alertedColor;
+        }
+        else {
+            spriteRenderer.enabled = true;
+            spriteRenderer.color = Color.Lerp(idleColor, investigateColor, attention.AttentionValue / attention.AttentionThreshold);
         }
     }
 }
