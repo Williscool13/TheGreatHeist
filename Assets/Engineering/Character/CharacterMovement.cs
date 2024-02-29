@@ -5,7 +5,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement : MonoBehaviour, ITeleport
 {
     public float MoveSpeed => moveSpeed;
     [ReadOnly][SerializeField] float moveSpeed;
@@ -69,7 +69,6 @@ public class CharacterMovement : MonoBehaviour
     Vector2 targetVel = Vector2.zero;
     private void FixedUpdate() {
         rb.AddForce(targetVel - rb.velocity, ForceMode2D.Impulse);
-        //rb.velocity = targetVel;
         lastMoveDirection = rb.velocity;
         targetVel = Vector2.zero;
     }
@@ -80,6 +79,12 @@ public class CharacterMovement : MonoBehaviour
 
     public void SetKinematic(bool kin) {
         rb.isKinematic = kin;
+    }
+
+    public void Teleport(Vector2 position, Quaternion rotation) {
+        transform.position = position;
+        transform.rotation = rotation;
+        rb.velocity = Vector2.zero;
     }
 
     public class MovementChangeEventArgs : EventArgs {
