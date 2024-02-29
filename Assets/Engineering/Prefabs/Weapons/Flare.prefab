@@ -4885,6 +4885,8 @@ MonoBehaviour:
   rb: {fileID: 742708840169322969}
   light2D: {fileID: 1204452704306623748}
   audioSource: {fileID: 2454441728175488484}
+  particles:
+  - {fileID: 5148732276520292004}
   activationDelay: 0.75
 --- !u!212 &7542572003220337111
 SpriteRenderer:

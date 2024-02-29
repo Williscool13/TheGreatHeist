@@ -18,6 +18,7 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] private StringReference controlScheme;
 
     [ReadOnly][Tooltip("Rotation Speed is in Degrees")][SerializeField] float characterRotationSpeed = 1080f;
+    [SerializeField] float characterRotationSpeedControllerMultiplier = 0.5f;
 
 
     bool controller = false;
@@ -42,15 +43,23 @@ public class PlayerAim : MonoBehaviour
             if (lookDelta.magnitude < 0.1f) { return; }
             lookDir = lookDelta;
             crosshair.position = transform.position + transform.right * 5.0f;
+            ClampCrosshairToScreen();
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                Quaternion.LookRotation(Vector3.forward, lookDir) * Quaternion.Euler(0, 0, 90.0f),
+                characterRotationSpeed * characterRotationSpeedControllerMultiplier * Time.deltaTime);
         }
         else { 
             lookDir = (Vector2)crosshair.position - (Vector2)transform.position; 
             crosshair.position = (Vector2)crosshair.position + (Time.deltaTime * mouseSensitivity.Value * lookDelta);
+            ClampCrosshairToScreen();
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, 
+                Quaternion.LookRotation(Vector3.forward, lookDir) * Quaternion.Euler(0, 0, 90.0f), 
+                characterRotationSpeed * Time.deltaTime);
         }
 
-        ClampCrosshairToScreen();
-
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.forward, lookDir) * Quaternion.Euler(0, 0, 90.0f), characterRotationSpeed * Time.deltaTime);
+        
 
     }
 

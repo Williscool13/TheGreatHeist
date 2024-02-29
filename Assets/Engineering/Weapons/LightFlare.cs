@@ -13,8 +13,9 @@ public class LightFlare : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Light2D light2D;
     [SerializeField] private AudioSource audioSource;
-
+    [SerializeField] private ParticleSystem[] particles;
     [SerializeField] private float activationDelay = 0.5f;
+
     float targetIntensity;
     float lifetimeTimer = 0;
     bool active;
@@ -36,6 +37,10 @@ public class LightFlare : MonoBehaviour
         ownerFlarePool = owner;
         active = false;
         shrinking = false;
+
+        for (int i = 0; i < particles.Length; i++) {
+            particles[i].Stop();
+        }
     }
 
     public void Launch(Vector2 velocity, float torque) {
@@ -47,6 +52,9 @@ public class LightFlare : MonoBehaviour
             .AppendCallback(() => {
                 DOTween.To(() => light2D.intensity, x => light2D.intensity = x, targetIntensity, 1f);
                 DOTween.To(() => audioSource.volume, x => audioSource.volume = x, 0.5f, 1f);
+                for (int i = 0; i < particles.Length; i++) {
+                    particles[i].Play();
+                }
                 active = true;
             });
     }

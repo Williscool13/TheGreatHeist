@@ -76,10 +76,15 @@ public class NewBehaviourScript : MonoBehaviour
     bool flareOnCooldown;
     public void OnFlare_DisplayTimeleft(object o, EventArgs e) {
         flareOnCooldown = true;
+        flareCooldownRoot.DOKill();
+        flareImage.DOKill();
+
         flareCooldownRoot.localScale = Vector3.one;
         Color c = flareImage.color;
         c.a = 0.75f;
         flareImage.color = c;
+
+
     }
 
     bool reloadOnCooldown;
