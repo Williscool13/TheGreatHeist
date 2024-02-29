@@ -4,16 +4,14 @@ using UnityEngine;
 
 namespace EnemyFiniteStateMachine
 {
-    [CreateAssetMenu(menuName = "Enemy/Actions/Death")]
-    public class EnemyDeathAction : EnemyStateAction
+    [CreateAssetMenu(menuName = "Enemy/Actions/Attention")]
+    public class AttentionAction : EnemyStateAction
     {
         public override void Enter(EnemyStateMachine machine) {
-            machine.Aim.StopAllAim();
-            machine.Movement.StopMovement();
-            //machine.Movement.SetKinematic(true);
         }
 
         public override void Execute(EnemyStateMachine machine) {
+            machine.Attention.DecrementAttention(Time.deltaTime);
         }
 
         public override void Exit(EnemyStateMachine machine) {

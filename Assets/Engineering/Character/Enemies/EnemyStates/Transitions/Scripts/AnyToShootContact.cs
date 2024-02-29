@@ -14,9 +14,15 @@ namespace EnemyFiniteStateMachine
             float t = Time.time - machine.PreviousCollisionData.collisionTimestamp;
             if (t > minReactionDelay && t < maxReactionDelay) {
                 Vector2 targetPos = machine.PreviousCollisionData.collisionPoint;
-                machine.SetInvestigationPoint(targetPos);
-                machine.SetTargetInformation(machine.PreviousCollisionData.collision.transform, machine.PreviousCollisionData.collision.transform.GetComponentInChildren<IHitbox>());
-                return true;
+                machine.Attention.IncreaseAttention(
+                    10.0f, 
+                    targetPos, 
+                    machine.PreviousCollisionData.collision.transform, 
+                    machine.PreviousCollisionData.collision.transform.GetComponentInChildren<IHitbox>());
+
+                if (machine.Attention.IsAttentionAlerted()) {
+                    return true;
+                }
             }
 
             return false;

@@ -17,7 +17,8 @@ namespace EnemyFiniteStateMachine
             if (t > minReactionDelay && t < maxReactionDelay) {
                 Debug.Log("Contact Duck 3");
                 Vector2 targetPos = machine.PreviousCollisionData.collisionPoint;
-                machine.SetInvestigationPoint(targetPos);
+                //machine.SetInvestigationPoint(targetPos); 
+                machine.Attention.IncreaseAttention(0.5f, targetPos);
                 return true;
             }
 

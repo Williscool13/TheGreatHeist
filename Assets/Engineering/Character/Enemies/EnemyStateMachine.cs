@@ -21,10 +21,12 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] CharacterMovement movement;
     [SerializeField] EnemyAim aim;
     [SerializeField] HealthSystem healthSystem;
+    [SerializeField] EnemyAttention attention;
 
     [Title("Vision")]
     [SerializeField] float fieldOfView = 90;
-    [SerializeField] float viewDistance = 10;
+    [SerializeField] float viewDistance = 7.5f;
+    [SerializeField] float alertViewDistance = 10.0f;
     [SerializeField] LayerMask targetLayerMask;
     [SerializeField] LayerMask flareLayerMask;
     [SerializeField] LayerMask obstacleTargetLayerMask;
@@ -59,9 +61,11 @@ public class EnemyStateMachine : MonoBehaviour
     public Transform TargetTransform => targetTransform;
     public Vector2 LastKnownPosition => lastKnownPosition;
 
+    // Components
     public CharacterMovement Movement => movement;
     public EnemyAim Aim => aim;
     public HealthSystem HealthSystem => healthSystem;
+    public EnemyAttention Attention => attention;
 
     public Patrol PatrolRoute => patrolRoute;
     public int PatrolIndex { get; private set; }
@@ -71,6 +75,7 @@ public class EnemyStateMachine : MonoBehaviour
     public float MoveSpeed => moveSpeed;
     public float InvestigateMoveSpeed => investigateMoveSpeed;
     public float ViewDistance => viewDistance;
+    public float AlertViewDistance => alertViewDistance;
     public float FieldOfView => fieldOfView;
     public LayerMask TargetLayerMask => targetLayerMask;
     public LayerMask FlareLayerMask => flareLayerMask;
@@ -98,6 +103,15 @@ public class EnemyStateMachine : MonoBehaviour
     #region State Machine Functions
     private void Start() {
         ChangeState(startingState);
+
+        attention.OnAttentionAlert += (o, e) => {
+            SetInvestigationPoint(e.targetPosition);
+            SetTargetInformation(e.target, e.hitbox);
+        };
+
+        attention.OnAttentionInvestigate += (o, e) => {
+            SetInvestigationPoint(e.targetPosition);
+        };
     }
     void Update()
     {
@@ -107,6 +121,7 @@ public class EnemyStateMachine : MonoBehaviour
         if (CurrentState != null) {
             CurrentState.Exit(this);
         }
+        Debug.Log("Changing State");
         CurrentState = state;
         CurrentState.Enter(this);
     }

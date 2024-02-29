@@ -21,7 +21,8 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
     [ShowIf("disableColliderOnDeath")][SerializeField] private Collider2D[] colliders;
     [ReadOnly][SerializeField] int _currentHealth;
 
-    [SerializeField] private FloatVariable currentHealth;
+    [SerializeField] private bool useScriptableObjectHealth;
+    [ShowIf("useScriptableObjectHealth")][SerializeField] private FloatVariable currentHealth;
 
     [Title("Blood Mist")]
     [SerializeField][AssetsOnly] private GameObject bloodMistPrefab;
@@ -50,6 +51,8 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
     public HealthData HealthData => healthData;
     public DamageData LastDamageData => lastDamageData;
 
+
+
     // pool for blood mist particles
     ObjectPool<ParticleSystem> bloodMistPool;
     ObjectPool<ParticleSystem> bloodSplatterPool;
@@ -60,9 +63,10 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
     DamageData lastDamageData = null;
     void Start()
     {
-        if (currentHealth == null) {
+        if (!useScriptableObjectHealth) {
             _currentHealth = healthData.maxHealth;
-        } else {
+        }
+        else {
             currentHealth.Value = healthData.maxHealth;
         }
         critImmune = healthData.critImmune;
@@ -88,7 +92,7 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
             bloodSplatter.Play();
 
             audioSource.PlayOneShot(criticalHitSounds[UnityEngine.Random.Range(0, criticalHitSounds.Length)]);
-            if (currentHealth == null) {
+            if (!useScriptableObjectHealth) {
                 _currentHealth -= data.amount * 2;
             } else {
                 currentHealth.Value -= data.amount * 2;
@@ -102,7 +106,7 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
                     audioSource.PlayOneShot(bluntHitSounds[UnityEngine.Random.Range(0, bluntHitSounds.Length)]);
                     break;
             }
-            if (currentHealth == null) {
+            if (!useScriptableObjectHealth) {
                 _currentHealth -= data.amount;
             }
             else {
@@ -111,7 +115,7 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
         }
 
         bool outOfHealth;
-        if (currentHealth == null) {
+        if (!useScriptableObjectHealth) {
             outOfHealth = _currentHealth <= 0;
         } else {
             outOfHealth = currentHealth.Value <= 0;
@@ -153,9 +157,12 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
         lastDamageData = data;
         Damage(data);
     }
+    public void AcknowledgeDamageData() {
+        LastDamageData.acknowledged = true;
+    }
 
     public void SetHealth(int value) { 
-        if (currentHealth == null) {
+        if (!useScriptableObjectHealth) {
             _currentHealth = value;
         } else {
             currentHealth.Value = value;
@@ -301,6 +308,7 @@ public class DamageData
     public bool isCritical;
     public float bulletShotTimestamp;
     public DamageImpactType impactType;
+    public bool acknowledged = false;
     public DamageData(int amount, Vector3 position, Vector3 direction, float distance, bool isCritical, float damageTimestamp, DamageImpactType impactType) {
         this.amount = amount;
         this.position = position;

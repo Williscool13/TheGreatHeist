@@ -12,7 +12,7 @@ public class PowerBox : MonoBehaviour, ITarget
     [SerializeField] float maxHealth = 100;
     [SerializeField] private NullEvent mainPowerShutoffEvent;
     [SerializeField] private NullEvent backupPowerEnabledEvent;
-    float currHealth = 100;
+    [SerializeField][ReadOnly] float currHealth = 100;
 
     [Title("Sound")]
     [SerializeField] private AudioClip powerBoxHitSound;
@@ -45,6 +45,11 @@ public class PowerBox : MonoBehaviour, ITarget
         } else {
             hitParticles.Play();
         }
+    }
+
+    [Button("Explode")]
+    public void Explode() {
+        OnHit(new DamageData(100, Vector3.zero, Vector3.zero, 10.0f, true, Time.time, DamageImpactType.Sharp));
     }
 
     void Start() { currHealth = maxHealth; }

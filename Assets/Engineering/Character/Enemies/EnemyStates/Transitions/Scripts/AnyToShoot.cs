@@ -22,12 +22,21 @@ namespace EnemyFiniteStateMachine
                     float dotProd = Vector2.Dot(shootDir, machine.Aim.GetAimDirection().normalized);
                     if (dotProd < Mathf.Cos(machine.FieldOfView / 2 * Mathf.Deg2Rad)) continue;
                     RaycastHit2D hit = Physics2D.Raycast(machine.GetWorldShootPoint(), shootDir, machine.ViewDistance, machine.ObstacleTargetLayerMask);
+                    
                     if (hit.collider != null && hit.collider.CompareTag("Player")) {
-                        Debug.Log("SPOTTED PLAYER: Field of view angle is:" + Mathf.Cos(machine.FieldOfView / 2 * Mathf.Deg2Rad) + " and dot product is " + dotProd);
-                        //return new InvestigateData() { targetFound = true, targetPosition = rh.point, target = rh.transform, targetHitbox = tHitbox };
-                        machine.SetInvestigationPoint(rh.point);
-                        machine.SetTargetInformation(rh.transform, tHitbox);
-                        return true;
+
+                        float distance = Vector2.Distance(machine.GetWorldShootPoint(), hit.point);
+                        //float attenuation = Mathf.Lerp(3.0f, 0.2f, Mathf.Clamp01(distance / machine.ViewDistance));
+                        float half = machine.ViewDistance * 0.5f;
+                        float attenuation = 1 - Mathf.Clamp01((distance - half) / (machine.ViewDistance - half));
+                        
+                        machine.Attention.IncreaseAttention(
+                            attenuation * Time.deltaTime, 
+                            rh.point, 
+                            rh.transform, 
+                            tHitbox);
+                        
+                        if (machine.Attention.IsAttentionAlerted()) { return true; }
                     }
                 }
             }

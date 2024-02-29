@@ -1752,6 +1752,7 @@ MonoBehaviour:
   disableColliderOnDeath: 0
   colliders: []
   _currentHealth: 0
+  useScriptableObjectHealth: 1
   currentHealth: {fileID: 11400000, guid: 3ad6870d70ef875449354e99558ff763, type: 2}
   bloodMistPrefab: {fileID: 3071384550752055928, guid: 6adcd18d7155d1f4bb56628fddbf6634,
     type: 3}

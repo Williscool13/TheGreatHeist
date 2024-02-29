@@ -56,7 +56,11 @@ public class CharacterMovement : MonoBehaviour, ITeleport
     /// </summary>
     /// <param name="direction"></param>
     /// <returns></returns>
-    public void Move(Vector2 moveInputs) {
+    public void Move(Vector2 moveInputs, bool setKinematic = true) {
+        if (setKinematic) {
+            rb.isKinematic = false;
+        }
+
         if (currentMovementType == Movement.Forced) {
             moveInputs = forcedMovementDirection.normalized;
         }
@@ -65,6 +69,8 @@ public class CharacterMovement : MonoBehaviour, ITeleport
         //rb.velocity = moveInputs * moveSpeed;
         
         targetVel = moveInputs * moveSpeed;
+
+        
     }
     Vector2 targetVel = Vector2.zero;
     private void FixedUpdate() {
@@ -73,13 +79,16 @@ public class CharacterMovement : MonoBehaviour, ITeleport
         targetVel = Vector2.zero;
     }
 
-    public void StopMovement() {
+    public void StopMovement(bool setKinematic = true) {
+        if (setKinematic) {
+            rb.isKinematic = true;
+        }
         rb.velocity = Vector2.zero;
     }
 
-    public void SetKinematic(bool kin) {
+    /*public void SetKinematic(bool kin) {
         rb.isKinematic = kin;
-    }
+    }*/
 
     public void Teleport(Vector2 position, Quaternion rotation) {
         transform.position = position;

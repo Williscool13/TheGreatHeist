@@ -31,7 +31,8 @@ public class PlayerAim : MonoBehaviour
     public void Look() {
         MoveCrosshairToMousePosition();
 
-        Vector3 crossPos = cachedCamera.ScreenToWorldPoint(crosshair.position);
+        //Vector3 crossPos = cachedCamera.ScreenToWorldPoint(crosshair.position);
+        Vector3 crossPos = crosshair.position;
         Vector2 look = (Vector2)crossPos - (Vector2)transform.position;
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.forward, look) * Quaternion.Euler(0, 0, 90.0f), characterRotationSpeed * Time.deltaTime);
@@ -44,7 +45,7 @@ public class PlayerAim : MonoBehaviour
     }
 
     void MoveCrosshairToMousePosition() {
-        Vector2 mousePos = GetMousePositionRaw();
+        Vector2 mousePos = GetMousePositionWorld();
         Vector2 distance = mousePos - (Vector2)crosshair.position;
         distance *= crosshairSpeed * lowerResolution * Time.deltaTime;
 
