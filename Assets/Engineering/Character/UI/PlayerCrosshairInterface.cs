@@ -16,9 +16,11 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] PlayerLoadoutManager loadoutManager;
 
     [Title("Animations")]
+    [SerializeField] float crosshairSpeed = 5.0f;
     [SerializeField] float timeToFade = 0.55f;
 
     [Title("UI Elements")]
+
     [SerializeField] RectTransform flareCooldownRoot;
     [SerializeField] Slider flareCooldown;
     [SerializeField] Image flareImage;
@@ -40,8 +42,6 @@ public class NewBehaviourScript : MonoBehaviour
 
     }
     void Update() {
-        transform.position = crosshair.position;
-
         FlareCooldown();
         ReloadCooldown();
     }

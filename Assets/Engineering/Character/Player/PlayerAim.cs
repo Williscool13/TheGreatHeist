@@ -12,7 +12,7 @@ public class PlayerAim : MonoBehaviour
 
     public bool Stunned { get; set; } = false;
 
-    [SerializeField] Transform crosshair;
+    [SerializeField] RectTransform crosshair;
     [ReadOnly][SerializeField] float crosshairSpeed = 0.35f;
     [SerializeField] private FloatReference mouseSensitivity;
     [SerializeField] private StringReference controlScheme;
@@ -40,6 +40,10 @@ public class PlayerAim : MonoBehaviour
         //MoveCrosshairToMousePosition();
         Vector2 lookDir;
         if (controller) { 
+            // ensure that the crosshair doesnt exceed 5.0f from the player
+            Vector2 _d = (Vector2)crosshair.position - (Vector2)transform.position;
+            if (_d.magnitude > 5.0f) { crosshair.position = (Vector2)transform.position + _d.normalized * 5.0f; }
+
             if (lookDelta.magnitude < 0.1f) { return; }
             lookDir = lookDelta;
             crosshair.position = transform.position + transform.right * 5.0f;

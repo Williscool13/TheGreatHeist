@@ -6,6 +6,7 @@ using EnemyAI;
 using System.Linq;
 using System;
 using Unity.Android.Gradle;
+using Unity.VisualScripting;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class EnemyStateMachine : MonoBehaviour
 
     [Title("State Machine Properties")]
     [SerializeField] EnemyState startingState;
-    [SerializeField] private Patrol patrolRoute;
 
     [Title("Components")]
     [SerializeField] CharacterMovement movement;
@@ -41,16 +41,18 @@ public class EnemyStateMachine : MonoBehaviour
 
     [Title("Idle Properties")]
     [SerializeField] Vector2 patrolIdleTime = new Vector2(2.5f, 4.5f);
-    float patrolIdleTimer = 0;
-    public float PatrolIdleTimer { get => patrolIdleTimer; set => patrolIdleTimer = value; }
-    public float PatrolIdleTime { get => UnityEngine.Random.Range(patrolIdleTime.x, patrolIdleTime.y); }
-
+    
     [Title("Shoot Properties")]
     [SerializeField] float shootCooldown = 1.0f;
     [SerializeField] float shootRange = 10;
 
     [Title("Investigate Properties")]
     [SerializeField] float investigateTimeout = 5;
+
+    [Title("Patrol Properties")]
+    [SerializeField] private bool patrol;
+    [ShowIf("patrol")][SerializeField] private Patrol patrolRoute;
+    float patrolIdleTimer = 0;
 
     Vector2 lastKnownPosition;
     IHitbox targetHitbox;
@@ -72,6 +74,9 @@ public class EnemyStateMachine : MonoBehaviour
     public Patrol PatrolRoute => patrolRoute;
     public int PatrolIndex { get; private set; }
     public PatrolSequence CurrentPatrolSequence { get; private set; }
+    public float PatrolIdleTimer { get => patrolIdleTimer; set => patrolIdleTimer = value; }
+    public float PatrolIdleTime { get => UnityEngine.Random.Range(patrolIdleTime.x, patrolIdleTime.y); }
+
 
     public float ShootRange => shootRange;
     public float MoveSpeed => moveSpeed;
@@ -177,6 +182,11 @@ public class EnemyStateMachine : MonoBehaviour
         CurrentPatrolSequence.Start();
     }
 
+    public void RandomPatrol() {
+        if (!patrol) return;
+        Aim.RandomSweep(true);
+        PatrolIdleTimer = PatrolIdleTime;
+    }
 
     public void StopPatrol() {
         if (IsPatrolling()) {

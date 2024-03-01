@@ -21,8 +21,7 @@ namespace EnemyFiniteStateMachine
                     return;
                 }
 
-                machine.Aim.RandomSweep(true);
-                machine.PatrolIdleTimer = machine.PatrolIdleTime;
+                machine.RandomPatrol();
 
                 return;
             }

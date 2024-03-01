@@ -158,7 +158,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10000
   m_Sprite: {fileID: 21300000, guid: 1967e0b5417893d428050e904c8fb85c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -225,7 +225,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CurrentState>k__BackingField: {fileID: 0}
   startingState: {fileID: 11400000, guid: 49cffb23218318d408823f5a09169928, type: 2}
-  patrolRoute: {fileID: 0}
   movement: {fileID: 3247284248482861431}
   aim: {fileID: 1373860645342501029}
   healthSystem: {fileID: 1448589532643481401}
@@ -254,6 +253,8 @@ MonoBehaviour:
   shootCooldown: 1
   shootRange: 10
   investigateTimeout: 5
+  patrol: 1
+  patrolRoute: {fileID: 0}
   investigatePath: []
 --- !u!58 &7354037469091693439
 CircleCollider2D:

@@ -21,6 +21,9 @@ public class EnemyAttentionMark : MonoBehaviour
 
     [SerializeField] SpriteRenderer spriteRenderer;
 
+    private void Start() {
+        transform.parent = null;
+    }
     void Update() {
         alertedColor.a = targetAlpha;
         investigateColor.a = targetAlpha;

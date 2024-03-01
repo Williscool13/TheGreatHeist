@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class CrosshairWorld : MonoBehaviour
 {
-    [SerializeField] private RectTransform crosshair;
-    Camera cachedMain;
-    // Start is called before the first frame update
     void Start()
     {
-        cachedMain = Camera.main;
+        //transform.parent = null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = (Vector2)cachedMain.ScreenToWorldPoint(crosshair.position);
     }
 }
