@@ -16,4 +16,8 @@ namespace GameSceneManager
 
         }
     }
+
+    public static class SceneReferences {
+        public static string Sandbox = "SandboxScene";
+    }
 }

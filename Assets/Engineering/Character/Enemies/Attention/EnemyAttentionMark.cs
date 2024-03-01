@@ -14,16 +14,19 @@ public class EnemyAttentionMark : MonoBehaviour
     [SerializeField] Color alertedColor = Color.red;
     [SerializeField] Color investigateColor = new Color(255.0f / 255.0f, 165.0f / 255.0f, 0.0f);
     [SerializeField] Color idleColor = Color.yellow;
+    [SerializeField] float targetAlpha = 1.0f;
+
+    public float TargetAlpha { set => targetAlpha = value; }
+
 
     [SerializeField] SpriteRenderer spriteRenderer;
 
-    private void Start() {
-        transform.parent = null;
-    }
-
     void Update() {
-        transform.position = followTarget.position + new Vector3(0, heightOffset, 0);
-        transform.rotation = Quaternion.identity;
+        alertedColor.a = targetAlpha;
+        investigateColor.a = targetAlpha;
+        idleColor.a = targetAlpha;
+
+        transform.SetPositionAndRotation(followTarget.position + new Vector3(0, heightOffset, 0), Quaternion.identity);
 
         if (attention.AttentionValue <= 0) {
             spriteRenderer.enabled = false;

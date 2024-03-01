@@ -56,13 +56,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 851182703022466363}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0050001144, y: 1.3389988, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0030117445, w: 0.99999547}
+  m_LocalPosition: {x: 0.48693392, y: 1.3389442, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5908131929759014383}
-  m_Father: {fileID: 2043416857550444643}
+  m_Father: {fileID: 2796015985588507428}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6740653715096707040
 MonoBehaviour:
@@ -82,6 +82,7 @@ MonoBehaviour:
   alertedColor: {r: 1, g: 0, b: 0, a: 1}
   investigateColor: {r: 1, g: 0.3764706, b: 0.015686275, a: 1}
   idleColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  targetAlpha: 1
   spriteRenderer: {fileID: 6805957884855544806}
 --- !u!1 &1019488358961886542
 GameObject:
@@ -206,9 +207,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 105292677558710746}
-  - {fileID: 3261629081555912745}
   - {fileID: 7960528024369137705}
-  - {fileID: 8884177417007076725}
   - {fileID: 8878312714075392946}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -231,6 +230,7 @@ MonoBehaviour:
   aim: {fileID: 1373860645342501029}
   healthSystem: {fileID: 1448589532643481401}
   attention: {fileID: 3384277442849080486}
+  corporeality: {fileID: 0}
   fieldOfView: 70
   viewDistance: 7.5
   alertViewDistance: 10
@@ -394,10 +394,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81478d7cbced1094b88cfa399a3114a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: {fileID: 1448589532643481401}
   timeToIncorporeal: 5
   timeToCorporeal: 5
   corporeal: 1
   corporealValue: 1
+  autoCorporeality: 1
+  randomAutoCorporeality: 0
+  randomAutoCorporealityRange: {x: 5, y: 10}
+  autoCorporealityTime: 10
 --- !u!1 &2960049044361032234
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,7 +956,7 @@ GameObject:
   - component: {fileID: 8991458775045986437}
   - component: {fileID: 5426350383219287468}
   m_Layer: 0
-  m_Name: Light
+  m_Name: Flashlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -965,12 +970,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6582459337211982626}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.704974, w: 0.7092332}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2043416857550444643}
+  m_Father: {fileID: 2796015985588507428}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!114 &8991458775045986437
 MonoBehaviour:
@@ -1064,6 +1069,7 @@ GameObject:
   - component: {fileID: 1890589289449036803}
   - component: {fileID: 1448589532643481401}
   - component: {fileID: 4149104067923223455}
+  - component: {fileID: 5078124578669707125}
   m_Layer: 13
   m_Name: Enemy
   m_TagString: Untagged
@@ -1197,6 +1203,23 @@ MonoBehaviour:
   <Stunned>k__BackingField: 0
   laughParticleEffect: {fileID: 8000883549247440288, guid: 59cb0f0efb5b1e94892b3451f8a89f80,
     type: 3}
+--- !u!114 &5078124578669707125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8097822080013518933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e69b7a0b501b4341b09edf37dfd5700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corporeality: {fileID: 2722448179253597029}
+  enemyModel: {fileID: 7223302816854696939}
+  flashlight: {fileID: 8991458775045986437}
+  attentionMark: {fileID: 6740653715096707040}
+  hitbox: {fileID: 1890589289449036803}
 --- !u!1 &9153617287174264619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,5 +1251,7 @@ Transform:
   m_Children:
   - {fileID: 8309788864390998412}
   - {fileID: 1250556604543065056}
+  - {fileID: 3261629081555912745}
+  - {fileID: 8884177417007076725}
   m_Father: {fileID: 105292677558710746}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
