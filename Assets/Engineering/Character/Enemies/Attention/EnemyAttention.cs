@@ -1,3 +1,4 @@
+using ScriptableObjectDependencyInjection;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -13,6 +14,11 @@ public class EnemyAttention : MonoBehaviour
     [Title("Attention Properties")]
     [SerializeField] private float attentionThreshold = 5.0f;
     [SerializeField] private float attentionMultiplier = 1.0f;
+
+    [Title("Attention Modifier")]
+    [SerializeField] private BoolReference lightsOut;
+    [SerializeField] private float lightsOutMultiplier = 0.5f;
+
 
     [Title("Decay Rate")]
     [SerializeField] private float decayMultiplier = 1.0f;
@@ -70,7 +76,7 @@ public class EnemyAttention : MonoBehaviour
     /// <param name="value"></param>
     /// <param name="targetPosition"></param>
     public void IncreaseAttention(float value, Vector2 targetPosition) {
-        attentionValue += value * attentionMultiplier;
+        attentionValue += value * attentionMultiplier * (lightsOut.Value ? lightsOutMultiplier : 1.0f);
         attentionValue = Mathf.Min(attentionValue, attentionThreshold / 2.0f);
         lastAttentionIncreaseTime = Time.time + decayDelay;
 
@@ -93,7 +99,7 @@ public class EnemyAttention : MonoBehaviour
             return;
         }
 
-        attentionValue += value * attentionMultiplier;
+        attentionValue += value * attentionMultiplier * (lightsOut.Value ? lightsOutMultiplier : 1.0f);
         lastAttentionIncreaseTime = Time.time + decayDelay;
 
         if (IsAttentionAlerted()) {
@@ -108,13 +114,16 @@ public class EnemyAttention : MonoBehaviour
 
 
     public void DecrementAttention(float value) {
+        Debug.Log("[1]Decrementing Attention by " + value);
         if (requiresCorporeality && !corporeality.IsCorporeal()) {
             return;
         }
+        Debug.Log("[2]Decrementing Attention by " + value);
 
         if (Time.time < lastAttentionIncreaseTime || attentionValue <= 0.0f) {
             return;
         }
+        Debug.Log("[3]Decrementing Attention by " + value);
         attentionValue -= value * decayMultiplier;
         attentionValue = Mathf.Max(0, attentionValue);
     }

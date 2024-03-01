@@ -112,7 +112,7 @@ MonoBehaviour:
     m_ActionId: 09582388-6264-4334-94f9-2ab8eed60776
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -129,3 +129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 0}
+  playerInput: {fileID: 4401887350708434999}
+  controlScheme:
+    UseConstant: 0
+    ConstantValue: 
+    Variable: {fileID: 11400000, guid: 531ce4fa5c2092541ba32e8c518ee32f, type: 2}

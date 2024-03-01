@@ -35,14 +35,15 @@ namespace EnemyFiniteStateMachine
                         float attenuation = Mathf.Lerp(cutoffAttentionStrength, minAttentionStrength,
                                 Mathf.Clamp01((distance - half) / (machine.ViewDistance - half)));
                         
-                        Debug.Log("[ENEMYSTATEMACHINE] Attenuation is " + attenuation);
                         machine.Attention.IncreaseAttention(
                             attenuation * Time.deltaTime, 
                             rh.point, 
                             rh.transform, 
                             tHitbox);
                         
-                        if (machine.Attention.IsAttentionAlerted()) { return true; }
+                        if (machine.Attention.IsAttentionAlerted()) {
+                            return true; 
+                        }
                     }
                 }
             }

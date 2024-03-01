@@ -11,9 +11,10 @@ namespace PlayerFiniteStateMachine
         }
 
         public override void Execute(PlayerStateMachine machine) {
-            // if user is pressing interact button, interact with object (use interact manager in state machine)
-
-            Debug.Log("[Player State Machine] Attempting to Inteact");
+            machine.Highlight();
+            if (machine.CanInteract()) {
+                machine.Interact();
+            }
         }
 
         public override void Exit(PlayerStateMachine machine) {

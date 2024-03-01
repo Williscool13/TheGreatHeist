@@ -229,7 +229,7 @@ MonoBehaviour:
   aim: {fileID: 1373860645342501029}
   healthSystem: {fileID: 1448589532643481401}
   attention: {fileID: 3384277442849080486}
-  corporeality: {fileID: 0}
+  corporeality: {fileID: 2722448179253597029}
   fieldOfView: 70
   viewDistance: 7.5
   alertViewDistance: 10
@@ -366,6 +366,11 @@ MonoBehaviour:
   attentionValue: 0
   attentionThreshold: 5
   attentionMultiplier: 1
+  lightsOut:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: e896e8b561099bf438849a0609245225, type: 2}
+  lightsOutMultiplier: 0.5
   decayMultiplier: 0.75
   decayDelay: 1
   alertSoundCooldown: 1

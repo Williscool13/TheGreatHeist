@@ -122,7 +122,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.563
+  m_Value: 0.621
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -606,6 +606,8 @@ GameObject:
   - component: {fileID: 4912446244419870263}
   - component: {fileID: 7905889186583846345}
   - component: {fileID: 6304083773463731892}
+  - component: {fileID: 6265002393867655668}
+  - component: {fileID: 6815606013413893195}
   - component: {fileID: 9083568543965837791}
   - component: {fileID: 4680977110804024481}
   m_Layer: 15
@@ -629,7 +631,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4311639846237810965}
-  - {fileID: 6714360348838526800}
   - {fileID: 6181397004711590823}
   - {fileID: 7442066659632490123}
   - {fileID: 549087366140673722}
@@ -664,17 +665,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f1e34c3a1e97146904e57694cf6559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crosshair: {fileID: 3510871919038652622}
+  crosshair: {fileID: 2879943711028139162}
   crosshairSpeed: 0.35
   mouseSensitivity:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
+    UseConstant: 0
+    ConstantValue: 10
+    Variable: {fileID: 11400000, guid: 5805761fde1183b4391b673038e15a13, type: 2}
   controlScheme:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 531ce4fa5c2092541ba32e8c518ee32f, type: 2}
   characterRotationSpeed: 1080
+  characterRotationSpeedControllerMultiplier: 0.5
 --- !u!114 &4912446244419870263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,6 +694,8 @@ MonoBehaviour:
   movement: {fileID: 8011669668298600784}
   aim: {fileID: 4074263694005638947}
   loadoutManager: {fileID: 7905889186583846345}
+  interactionManager: {fileID: 6265002393867655668}
+  dashManager: {fileID: 6815606013413893195}
   healthSystem: {fileID: 7341421475574370675}
   flareManager: {fileID: 2592625580967511289}
   statusEffectManager: {fileID: 6304083773463731892}
@@ -727,6 +731,37 @@ MonoBehaviour:
   <Stunned>k__BackingField: 0
   laughParticleEffect: {fileID: 8000883549247440288, guid: 59cb0f0efb5b1e94892b3451f8a89f80,
     type: 3}
+--- !u!114 &6265002393867655668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2654867601379287344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615285b417d619e459ea3317354ba67a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAim: {fileID: 4074263694005638947}
+  interactDistance: 1
+  interactRadius: 0.5
+  interactObjectLayer:
+    serializedVersion: 2
+    m_Bits: 65536
+--- !u!114 &6815606013413893195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2654867601379287344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa09407a87daed543998e4f86b98d868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashCooldown: 2
 --- !u!58 &9083568543965837791
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1186,7 +1221,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.000076293945, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8780332084881031643
@@ -1210,7 +1245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0, a: 0.5019608}
+  m_Color: {r: 1, g: 1, b: 0, a: 0.7529412}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1222,7 +1257,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 0.516
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -1378,7 +1413,7 @@ MonoBehaviour:
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
+    m_ColorMultiplier: 1.58
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
@@ -1399,7 +1434,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.516
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1473,7 +1508,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.563
+  m_FillAmount: 0.621
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -1673,7 +1708,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1757,51 +1792,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &6657421177722081259
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6714360348838526800}
-  - component: {fileID: 9049526569005911801}
-  m_Layer: 0
-  m_Name: CrosshairWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6714360348838526800
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6657421177722081259}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.95401275, w: 0.29976606}
-  m_LocalPosition: {x: -156.81264, y: -469.68158, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1624218701297048367}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9049526569005911801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6657421177722081259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74d99700ac966b24d9b5fd57d93bd78e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crosshair: {fileID: 3510871919038652622}
 --- !u!1 &7222738172790888194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1860,7 +1850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21888566, g: 1, b: 0, a: 0.5019608}
+  m_Color: {r: 0.21888566, g: 1, b: 0, a: 0.43137255}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2031,7 +2021,7 @@ Transform:
   m_GameObject: {fileID: 7731502196835316119}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.003, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2077,6 +2067,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2879943711028139162}
+  - component: {fileID: 9006096832222856465}
   m_Layer: 0
   m_Name: CrosshairParent
   m_TagString: Untagged
@@ -2106,6 +2097,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 48, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9006096832222856465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426115807829846296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff343b6bd80221c4a809e23ce50849ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshair: {fileID: 0}
+  flareManager: {fileID: 2592625580967511289}
+  loadoutManager: {fileID: 7905889186583846345}
+  crosshairSpeed: 5
+  timeToFade: 0.55
+  flareCooldownRoot: {fileID: 8960051193955002281}
+  flareCooldown: {fileID: 76551424674837193}
+  flareImage: {fileID: 5653099293122835336}
+  reloadTimeleftRoot: {fileID: 3181650879411058296}
+  reloadTimeleft: {fileID: 5986910914419565868}
+  reloadImage: {fileID: 9197176861619617538}
+  crosshairInterface: {fileID: 3510871919038652622}
 --- !u!1 &8629215779922454361
 GameObject:
   m_ObjectHideFlags: 0
@@ -2571,6 +2586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a717fc49483a6a744b04871beea5aff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cv: {fileID: 1930241004187695295}
   healthParent: {fileID: 3071603213475077069}
   mainHealthSlider: {fileID: 6961390516397409707}
   lagHealthSlider1: {fileID: 1262464771509575325}

@@ -31,12 +31,18 @@ public class EnemyModelManager : MonoBehaviour
     {
         if (!watchingCorporeality) return;
 
-        if (Mathf.Approximately(corporeality.CorporealValue, corporealityTarget)){
-            Debug.Log($"Corporeal Value Reached: { corporeality.CorporealValue } and { corporealityTarget }");
-            watchingCorporeality = false; 
-            return; 
-        }
+        if (!corporeality.IsChangingCorporeality()) {
+            Debug.Log($"Corporeal Value Reached (or at least, no ongoing changes): {corporeality.CorporealValue} and {corporealityTarget}");
+            watchingCorporeality = false;
 
+            Color _c = enemyModel.color;
+            _c.a = corporeality.CorporealValue;
+            enemyModel.color = _c;
+            attentionMark.TargetAlpha = corporeality.CorporealValue;
+            flashlight.intensity = targetFlashlightIntensity * corporeality.CorporealValue;
+            return;
+        }
+        
         if (Mathf.Approximately(0.0f, corporealityTarget)) {
             if (corporeality.CorporealValue <= 0.5f) {
                 hitbox.enabled = false;
@@ -50,9 +56,7 @@ public class EnemyModelManager : MonoBehaviour
         Color c = enemyModel.color;
         c.a = corporeality.CorporealValue;
         enemyModel.color = c;
-
         attentionMark.TargetAlpha = corporeality.CorporealValue;
-
         flashlight.intensity = targetFlashlightIntensity * corporeality.CorporealValue;
     }
 

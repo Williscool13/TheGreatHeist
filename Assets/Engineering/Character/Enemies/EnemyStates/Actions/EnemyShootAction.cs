@@ -11,6 +11,7 @@ namespace EnemyFiniteStateMachine
         [SerializeField] EnemyState investigate;
 
         public override void Enter(EnemyStateMachine machine) {
+            machine.DisableCorporeality();
             machine.CurrentHitboxHitpointIndex = -1;
             //machine.AddInvestigatePath(machine.transform.position);
         }
@@ -66,6 +67,7 @@ namespace EnemyFiniteStateMachine
         }
 
         public override void Exit(EnemyStateMachine machine) {
+            machine.EnableCorporeality();
         }
     }
 }

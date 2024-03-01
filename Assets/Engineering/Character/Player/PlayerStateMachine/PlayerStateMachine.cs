@@ -17,6 +17,8 @@ public class PlayerStateMachine : MonoBehaviour, IStunnable
     [SerializeField] private CharacterMovement movement;
     [SerializeField] private PlayerAim aim;
     [SerializeField] private PlayerLoadoutManager loadoutManager;
+    [SerializeField] private PlayerInteractionManager interactionManager;
+    [SerializeField] private PlayerDashManager dashManager;
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private FlareManager flareManager;
 
@@ -59,7 +61,10 @@ public class PlayerStateMachine : MonoBehaviour, IStunnable
         return sprintHeld && move.magnitude > 0.1f;
     }
     public bool CanDash() {
-        return dashPressed && movement.GetLastMovementDirection().magnitude > 0.1f;
+        return dashPressed && movement.GetLastMovementDirection().magnitude > 0.1f && dashManager.CanDash();
+    }
+    public void Dash() {
+        dashManager.UseDash();
     }
     public Vector2 GetLastMovementDirection() {
         return movement.GetLastMovementDirection();
@@ -128,6 +133,20 @@ public class PlayerStateMachine : MonoBehaviour, IStunnable
     }
     #endregion
 
+    #region Interact Functions
+    public bool CanInteract() {
+        return interactPressed;
+    }
+    public void Interact() {
+        interactionManager.Interact();
+    }
+
+    public void Highlight() {
+        interactionManager.HighlightInteract();
+    }
+
+    #endregion
+
     #endregion
 
     #region Footstep FUnctions
@@ -159,6 +178,8 @@ public class PlayerStateMachine : MonoBehaviour, IStunnable
     bool sprintHeld;
     bool dashPressed;
     bool dashHeld;
+    bool interactPressed;
+    bool interactHeld;
     Vector2 move;
     Vector2 look;
 
@@ -169,7 +190,8 @@ public class PlayerStateMachine : MonoBehaviour, IStunnable
         bool recoverPressed, bool recoverHeld,
         bool flarePressed, bool flareHeld, 
         bool sprintPressed, bool sprintHeld,
-        bool dashPressed, bool dashHeld) {
+        bool dashPressed, bool dashHeld,
+        bool interactPressed, bool interactHeld) {
         
         this.move = move;
         this.look = look;
@@ -183,6 +205,8 @@ public class PlayerStateMachine : MonoBehaviour, IStunnable
         this.sprintHeld = sprintHeld;
         this.dashPressed = dashPressed;
         this.dashHeld = dashHeld;
+        this.interactPressed = interactPressed;
+        this.interactHeld = interactHeld;
     }
 
 }

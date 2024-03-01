@@ -45,6 +45,7 @@ public class EnemyCorporeality : MonoBehaviour
         health.OnDeath += OnDeath_Disable;
     }
     private void Update() {
+        if (!canIncorporate) return;
         if (!autoCorporeality) return;
         
         if (Time.time > corpoTimestamp) {
@@ -110,5 +111,25 @@ public class EnemyCorporeality : MonoBehaviour
 
     public bool IsCorporeal() {
         return corporeal;
+    }
+
+    bool canIncorporate = true;
+
+    public void DisableCorporeality () {
+        canIncorporate = false;
+        if (corpRoutine != null) {
+            StopCoroutine(corpRoutine);
+            corpRoutine = null;
+        }
+        corporealValue = 1.0f;
+        corporeal = true;
+    }
+
+    public void EnableCorporeality() {
+        canIncorporate = true;
+    }
+
+    public bool IsChangingCorporeality() {
+        return corpRoutine != null;
     }
 }

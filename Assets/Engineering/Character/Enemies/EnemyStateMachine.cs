@@ -151,6 +151,13 @@ public class EnemyStateMachine : MonoBehaviour
     public Vector2 GetWorldShootPoint() {
         return transform.position;
     }
+    
+    public void EnableCorporeality() {
+        corporeality.EnableCorporeality();
+    }
+    public void DisableCorporeality() {
+        corporeality.DisableCorporeality();
+    }
     #endregion
 
 

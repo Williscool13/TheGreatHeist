@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 603029f883d990f409d35007225025d7, type: 3}
-  m_Name: MainPowerShutoff
+  m_Script: {fileID: 11500000, guid: 86947e0813cb5e6408cd50283e67010e, type: 3}
+  m_Name: CommonInteract
   m_EditorClassIdentifier: 

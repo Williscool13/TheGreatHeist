@@ -6,7 +6,7 @@ public class WalkDashDecision : PlayerStateDecision
 {
     public override bool Decide(PlayerStateMachine machine) {
         if (machine.CanDash()) {
-            // cooldown
+            machine.Dash();
             return true;
         }
         return false;

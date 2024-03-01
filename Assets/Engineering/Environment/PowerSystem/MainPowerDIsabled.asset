@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1a4dcb9eaea52941834aeaefa514732, type: 3}
-  m_Name: PlayerInputType
+  m_Script: {fileID: 11500000, guid: fc42e5efc210d2d4c91ad3eda1062f61, type: 3}
+  m_Name: MainPowerDIsabled
   m_EditorClassIdentifier: 
-  value: Gamepad
+  value: 0

@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace ScriptableObjectDependencyInjection
 {
+    [CustomPropertyDrawer(typeof(BoolReference), true)]
+    public class BoolReferenceDrawer : ScriptableReferenceDrawer { }
+
     [CustomPropertyDrawer(typeof(FloatReference), true)]
     public class FloatReferenceDrawer : ScriptableReferenceDrawer { }
 

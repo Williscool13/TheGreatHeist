@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerHealthInterface : MonoBehaviour
 {
+    [SerializeField] Canvas cv;
     [SerializeField] RectTransform healthParent;
     [SerializeField] Slider mainHealthSlider;
     [SerializeField] Slider lagHealthSlider1;
@@ -22,6 +23,10 @@ public class PlayerHealthInterface : MonoBehaviour
     [SerializeField] HealthData healthData;
     
     float curScale = 1.0f;
+
+    private void Start() {
+        cv.worldCamera = Camera.main;
+    }
     void Update()
     {
         curScale = Mathf.MoveTowards(curScale, healthReference.Value <= 0 ? 1.03f : 1.0f, Time.deltaTime * scaleMoveTowardsSpeed);

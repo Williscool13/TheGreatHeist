@@ -14,12 +14,14 @@ public class Player : MonoBehaviour
     bool flarePressed;
     bool sprintPressed;
     bool dashPressed;
+    bool interactPressed;
 
     bool fireHeld;
     bool recoverHeld;
     bool flareHeld;
     bool sprintHeld;
     bool dashHeld;
+    bool interactHeld;
 
     [SceneObjectsOnly][SerializeField] private PlayerStateMachine playerCharacter;
     [SerializeField] private PlayerInput playerInput;
@@ -31,7 +33,10 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
-        playerCharacter.SetInputs(move, look, firePressed, fireHeld, recoverPressed, recoverHeld, flarePressed, flareHeld, sprintPressed, sprintHeld, dashPressed, dashHeld);
+        playerCharacter.SetInputs(move, look, firePressed, fireHeld, 
+            recoverPressed, recoverHeld, flarePressed, flareHeld, 
+            sprintPressed, sprintHeld, dashPressed, dashHeld, 
+            interactPressed, interactHeld);
 
 
         firePressed = false;
@@ -39,6 +44,7 @@ public class Player : MonoBehaviour
         flarePressed = false;
         sprintPressed = false;
         dashPressed = false;
+        interactPressed = false;
     }
 
     public void OnMove(InputValue value) {
@@ -119,6 +125,18 @@ public class Player : MonoBehaviour
         }
         else {
             dashHeld = false;
+        }
+    }
+
+    public void OnInteract(InputValue value) {
+        if (value.isPressed) {
+            interactPressed = true;
+        }
+        if (value.Get<float>() > 0.5f) {
+            interactHeld = true;
+        }
+        else {
+            interactHeld = false;
         }
     }
 }

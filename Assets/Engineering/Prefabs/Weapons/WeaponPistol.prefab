@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a970c20eb534b24c9e0c232f40258a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadoutType: 1
   muzzlePosition: {fileID: 7486614905684987719}
   muzzleFlash: {fileID: 3148661630147123463}
   stats: {fileID: 11400000, guid: 3e22c4a83c6a5134c8a1c41f98e78ef3, type: 2}
