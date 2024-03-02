@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ff243581f07f1b4589f09cb742fcc6d, type: 3}
   m_Name: EngagedShoot
   m_EditorClassIdentifier: 
-  shootCooldown: 1
-  idleAlert: {fileID: 11400000, guid: a5c084e9a5c6c104db0b4d9379f919dd, type: 2}
   investigate: {fileID: 11400000, guid: f530a0b94f348a4479ba3af4e8f28d28, type: 2}
-  raycastDistance: 200
-  shotLayerMask:
-    serializedVersion: 2
-    m_Bits: 20480
+  backtracking: {fileID: 11400000, guid: 488c43c2a08dd474f9da4d78f7f956eb, type: 2}
+  instantlyKillOnSight: 1

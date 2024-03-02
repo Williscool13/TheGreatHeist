@@ -24,15 +24,10 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
     [SerializeField] private bool useScriptableObjectHealth;
     [ShowIf("useScriptableObjectHealth")][SerializeField] private FloatVariable currentHealth;
 
-    [Title("Blood Mist")]
+    [Title("Particles")]
     [SerializeField][AssetsOnly] private GameObject bloodMistPrefab;
-
-    [Title("Blood Splatter")]
     [SerializeField][AssetsOnly] private GameObject bloodSplatterPrefab;
     [SerializeField] private Vector2 bloodSplatterOffset = new Vector2(0.25f, 0.25f);
-
-    [Title("Death")]
-    [SerializeField][AssetsOnly] private GameObject deathParticlesPrefab;
     [SerializeField] private bool bulletTimeOnDeath;
 
 
@@ -56,7 +51,6 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
     // pool for blood mist particles
     ObjectPool<ParticleSystem> bloodMistPool;
     ObjectPool<ParticleSystem> bloodSplatterPool;
-    ParticleSystem deathParticles;
     
     bool critImmune;
     bool dead = false;
@@ -105,6 +99,8 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
                 case DamageImpactType.Blunt:
                     audioSource.PlayOneShot(bluntHitSounds[UnityEngine.Random.Range(0, bluntHitSounds.Length)]);
                     break;
+                default:
+                    break;
             }
             if (!useScriptableObjectHealth) {
                 _currentHealth -= data.amount;
@@ -122,13 +118,6 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
         }
         if (outOfHealth && !dead) {
             OnDeath?.Invoke(this, EventArgs.Empty);
-            // infinitely emit laughing particles, will likely change
-            if (deathParticles == null) {
-                deathParticles = Instantiate(deathParticlesPrefab, transform).GetComponent<ParticleSystem>();
-                deathParticles.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            }
-            
-            deathParticles.Play();
             audioSource.PlayOneShot(deathSounds[UnityEngine.Random.Range(0, deathSounds.Length)]);
 
             if (disableHitboxOnDeath) {
@@ -168,9 +157,6 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
             currentHealth.Value = value;
         }
         dead = value <= 0;
-        if (deathParticles != null) {
-            deathParticles.Stop();
-        }
 
         bool colEnabled = value > 0;
         if (disableHitboxOnDeath) {
@@ -321,6 +307,7 @@ public class DamageData
 
 public enum DamageImpactType
 {
+    None,
     Blunt,
     Sharp
 }

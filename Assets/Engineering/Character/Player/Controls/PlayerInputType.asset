@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a4dcb9eaea52941834aeaefa514732, type: 3}
   m_Name: PlayerInputType
   m_EditorClassIdentifier: 
-  value: Gamepad
+  value: Keyboard&Mouse

@@ -23,6 +23,7 @@ public class PlayerInteractionManager : MonoBehaviour
         IInteractable closestInteactable = null;
         foreach (Collider2D collider in colliders) {
             if (!collider.TryGetComponent(out IInteractable interactable)) continue;
+            if (!interactable.CanInteract) continue;
 
             float dist = Vector2.Distance(collider.ClosestPoint(transform.position), transform.position);
             if (dist < closestDistance) {
@@ -33,6 +34,7 @@ public class PlayerInteractionManager : MonoBehaviour
 
         if (closestInteactable != null) {
             nextHighlight = closestInteactable;
+            Debug.Log("Found an interactable nearby");
         }
         attempHighlight = true;
     }
@@ -46,22 +48,21 @@ public class PlayerInteractionManager : MonoBehaviour
         if (!attempHighlight && currentHighlight != null) {
             currentHighlight.Unhighlight();
             currentHighlight = null;
+            Debug.Log("no attempt to highlight");
             return;
         }
 
-        if (currentHighlight == nextHighlight) { return; }
-        if (currentHighlight != null) { currentHighlight.Unhighlight(); }
-        if (nextHighlight != null) { nextHighlight.Highlight(); }
-        currentHighlight = nextHighlight;
+        if (currentHighlight == null || nextHighlight == null || currentHighlight != nextHighlight) {
+            currentHighlight?.Unhighlight();
+            nextHighlight?.Highlight();
+            currentHighlight = nextHighlight;
+            attempHighlight = false;
+        }
         nextHighlight = null;
-
-        attempHighlight = false;
     }
 
     public void Interact() {
-        if (currentHighlight != null) {
-            currentHighlight.Interact();
-        }
+        currentHighlight?.Interact();
     }
 
 

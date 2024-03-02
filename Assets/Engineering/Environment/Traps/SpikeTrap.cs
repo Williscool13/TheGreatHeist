@@ -30,7 +30,7 @@ namespace Traps
             DOTween.Sequence()
                 .Append(transform.DOMove(basePos + movement, extendTime).SetEase(Ease.Linear))
                 .AppendInterval(lingerTime)
-                .Append(transform.DOMove(basePos, returnTime).SetEase(Ease.OutBack))
+                .Append(transform.DOMove(basePos, returnTime).SetEase(Ease.OutSine))
                 .OnComplete(() => trapActive = false);
                 
         }

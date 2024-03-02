@@ -9,11 +9,27 @@ namespace EnemyFiniteStateMachine
     public class EnemyShootAction : EnemyStateAction
     {
         [SerializeField] EnemyState investigate;
+        [SerializeField] EnemyState backtracking;
+
+        [SerializeField] private bool instantlyKillOnSight = false;
 
         public override void Enter(EnemyStateMachine machine) {
             machine.DisableCorporeality();
             machine.CurrentHitboxHitpointIndex = -1;
             //machine.AddInvestigatePath(machine.transform.position);
+
+            if (!instantlyKillOnSight) { return; }
+
+            RaycastHit2D[] rhs = Physics2D.CircleCastAll(machine.GetWorldShootPoint(), machine.ViewDistance, Vector2.zero, 0, machine.TargetLayerMask);
+
+            if (rhs.Length == 0) { return; }
+            HealthSystem hs = rhs[0].transform.GetComponentInChildren<HealthSystem>();
+            if (hs == null) { return; }
+
+            hs.Damage(new DamageData(1000, hs.transform.position, hs.transform.position - machine.transform.position, 
+                Vector2.Distance(hs.transform.position, machine.transform.position), false, Time.time, DamageImpactType.None));
+
+            machine.ChangeState(backtracking);
         }
 
         public override void Execute(EnemyStateMachine machine) {

@@ -114,16 +114,13 @@ public class EnemyAttention : MonoBehaviour
 
 
     public void DecrementAttention(float value) {
-        Debug.Log("[1]Decrementing Attention by " + value);
         if (requiresCorporeality && !corporeality.IsCorporeal()) {
             return;
         }
-        Debug.Log("[2]Decrementing Attention by " + value);
 
         if (Time.time < lastAttentionIncreaseTime || attentionValue <= 0.0f) {
             return;
         }
-        Debug.Log("[3]Decrementing Attention by " + value);
         attentionValue -= value * decayMultiplier;
         attentionValue = Mathf.Max(0, attentionValue);
     }

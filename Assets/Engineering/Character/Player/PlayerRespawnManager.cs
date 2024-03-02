@@ -15,6 +15,9 @@ public class PlayerRespawnManager : MonoBehaviour
     [Title("Time")]
     [SerializeField] private float respawnInitialDelay = 1.0f;
     [SerializeField] private float respawnTransitionLingertime = 1.0f;
+
+    [Title("Properties")]
+    [SerializeField] private float respawnHealthPercentage = 1.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +45,7 @@ public class PlayerRespawnManager : MonoBehaviour
     }
 
     void OnTransitionEnd(object sender, System.EventArgs e) {
-        healthSystem.SetHealth(Mathf.Max(healthSystem.HealthData.maxHealth / 2, 1));
+        healthSystem.SetHealth(Mathf.Max((int)(healthSystem.HealthData.maxHealth * respawnHealthPercentage), 1));
 
         (sender as TransitionManager).transitionEnd -= OnTransitionEnd;
     }

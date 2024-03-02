@@ -8,6 +8,7 @@ public class EnemyCorporeality : MonoBehaviour
 {
     [Title("Components")]
     [SerializeField] private HealthSystem health;
+    [SerializeField] private Collider2D mainCollider;
 
     [Title("Timers")]
     [SerializeField] private float timeToIncorporeal = 5.0f;
@@ -87,7 +88,10 @@ public class EnemyCorporeality : MonoBehaviour
     IEnumerator TurnIncorporealRoutine() {
         while (corporealValue > 0) {
             corporealValue -= Time.deltaTime / timeToIncorporeal;
-            if (corporealValue < 0.5f) corporeal = false;
+            if (corporealValue < 0.5f) {
+                corporeal = false;
+                mainCollider.enabled = false;
+            }
             yield return null;
         }
         corporealValue = 0;
@@ -97,7 +101,10 @@ public class EnemyCorporeality : MonoBehaviour
     IEnumerator TurnCorporealRoutine() {
         while (corporealValue < 1) {
             corporealValue += Time.deltaTime / timeToCorporeal;
-            if (corporealValue > 0.5f) corporeal = true;
+            if (corporealValue > 0.5f) {
+                corporeal = true;
+                mainCollider.enabled = true;
+            }
             yield return null;
         }
         corporealValue = 1;
@@ -123,6 +130,7 @@ public class EnemyCorporeality : MonoBehaviour
         }
         corporealValue = 1.0f;
         corporeal = true;
+        mainCollider.enabled = true;
     }
 
     public void EnableCorporeality() {

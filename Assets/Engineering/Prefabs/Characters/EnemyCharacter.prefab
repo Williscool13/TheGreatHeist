@@ -254,7 +254,7 @@ MonoBehaviour:
   shootRange: 10
   investigateTimeout: 5
   patrol: 1
-  patrolRoute: {fileID: 0}
+  patrolRoute: {fileID: 11400000, guid: 636cbabdff79f2e4abe9be13a5fad37d, type: 2}
   investigatePath: []
 --- !u!58 &7354037469091693439
 CircleCollider2D:
@@ -401,6 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 1448589532643481401}
+  mainCollider: {fileID: 7354037469091693439}
   timeToIncorporeal: 5
   timeToCorporeal: 5
   corporeal: 1
@@ -420,7 +421,7 @@ GameObject:
   - component: {fileID: 8309788864390998412}
   - component: {fileID: 7223302816854696939}
   m_Layer: 0
-  m_Name: hitman1_stand
+  m_Name: Main Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -434,13 +435,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2960049044361032234}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2796015985588507428}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!212 &7223302816854696939
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -484,7 +485,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: b048ecb910f30314096253bf02a053da, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f625b62543f9e34468960f996ca54d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -977,7 +978,7 @@ Transform:
   m_GameObject: {fileID: 6582459337211982626}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.704974, w: 0.7092332}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0.344, y: -0.001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1251,7 +1252,7 @@ Transform:
   m_GameObject: {fileID: 9153617287174264619}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0.227, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

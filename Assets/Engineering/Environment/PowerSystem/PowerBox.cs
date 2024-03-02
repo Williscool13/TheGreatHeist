@@ -29,9 +29,10 @@ public class PowerBox : MonoBehaviour, ITarget, IInteractable
     [SerializeField] Light2D mainLight;
 
     [Title("Interaction")]
-    [SerializeField] private bool canInteract = true;
+    [SerializeField] private bool interactionEnabled = true;
 
     bool disabled = false;
+    public bool CanInteract => interactionEnabled && !disabled;
     public void OnHit(DamageData data) {
         if (disabled) { return; }
         currHealth -= data.amount;
@@ -58,8 +59,9 @@ public class PowerBox : MonoBehaviour, ITarget, IInteractable
     }
 
     public void Interact() {
-        if (canInteract) {
+        if (interactionEnabled && !disabled) {
             Explode();
+            Unhighlight();
         }
     }
 

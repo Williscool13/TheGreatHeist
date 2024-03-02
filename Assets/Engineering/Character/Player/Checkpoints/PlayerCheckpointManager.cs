@@ -12,7 +12,10 @@ namespace PlayerCheckpoints
 
         [SerializeField] private Checkpoint initialCheckpoint;
         private void Start() {
-            Debug.Assert(initialCheckpoint != null, "Must set an initial checkpoint");
+            if (initialCheckpoint == null) {
+                Debug.LogError("No initial checkpoint set");
+                return;
+            }
             highestCheckpointId = initialCheckpoint.CheckpointId;
             currentCheckpoint = initialCheckpoint;
         }
