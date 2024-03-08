@@ -159,7 +159,7 @@ RectTransform:
   m_Father: {fileID: 8136935799090182420}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1546,7 +1546,7 @@ RectTransform:
   m_Father: {fileID: 3596084768492445084}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1621,7 +1621,7 @@ RectTransform:
   m_Father: {fileID: 5351825352089405039}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2334,15 +2334,13 @@ MonoBehaviour:
   bloodSplatterOffset: {x: 0.5, y: 0.5}
   bulletTimeOnDeath: 1
   sharpHitSounds:
-  - {fileID: 8300000, guid: 045e3aa9f0c0f6e4189a4cf1bca8175e, type: 3}
-  - {fileID: 8300000, guid: de7345407dc9d8c498238d222ca5ddf1, type: 3}
+  - {fileID: 8300000, guid: 7277b5f539d0db34aadcfecadc2863ff, type: 3}
   bluntHitSounds:
   - {fileID: 8300000, guid: a410c9a7524fc31449127ce4da559d19, type: 3}
   criticalHitSounds:
   - {fileID: 8300000, guid: b29d9c3d1b2a2fe4ba7d408e585647d5, type: 3}
   deathSounds:
-  - {fileID: 8300000, guid: 574217b66471c084e904fa9142b6b1d3, type: 3}
-  - {fileID: 8300000, guid: dc0fb63a9842c5745a812d55743c31cd, type: 3}
+  - {fileID: 8300000, guid: 78326fb3f0b237e45921772cd1a67684, type: 3}
   audioSource: {fileID: 7861065240155342923}
   OnDeathUnityEvent:
     m_PersistentCalls:
