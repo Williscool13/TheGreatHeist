@@ -19,9 +19,11 @@ namespace EnemyFiniteStateMachine
                     targetPos, 
                     machine.PreviousCollisionData.collision.transform, 
                     machine.PreviousCollisionData.collision.transform.GetComponentInChildren<IHitbox>());
+                machine.AcknowledgePreviousCollisionData();
 
                 if (machine.Attention.IsAttentionAlerted()) {
                     return true;
+
                 }
             }
 

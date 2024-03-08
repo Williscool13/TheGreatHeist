@@ -72,18 +72,17 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
     public void Damage(DamageData data) {
 
         // Blood Mist
-        ParticleSystem bloodMist = bloodMistPool.Get();
-        bloodMist.transform.position = data.position + data.direction.normalized * 0.1f; 
+        //ParticleSystem bloodMist = bloodMistPool.Get();
+        //bloodMist.transform.position = data.position + data.direction.normalized * 0.1f; 
         // rotate to face direction
-        bloodMist.transform.eulerAngles = new Vector3(0, 0, (Mathf.Atan2(data.direction.y, data.direction.x) * Mathf.Rad2Deg) + 90.0f);
-        bloodMist.Play();
+        //bloodMist.transform.eulerAngles = new Vector3(0, 0, (Mathf.Atan2(data.direction.y, data.direction.x) * Mathf.Rad2Deg) + 90.0f);
+        //bloodMist.Play();
 
-        // Blood Splatter
         if (data.isCritical) {
-            ParticleSystem bloodSplatter = bloodSplatterPool.Get();
+            /*ParticleSystem bloodSplatter = bloodSplatterPool.Get();
             bloodSplatter.transform.position = data.position + new Vector3(UnityEngine.Random.Range(-bloodSplatterOffset.x, bloodSplatterOffset.x), UnityEngine.Random.Range(-bloodSplatterOffset.y, bloodSplatterOffset.y), 0f);
             bloodSplatter.transform.eulerAngles = new Vector3(0, 0, UnityEngine.Random.Range(0, 360));
-            bloodSplatter.Play();
+            bloodSplatter.Play();*/
 
             audioSource.PlayOneShot(criticalHitSounds[UnityEngine.Random.Range(0, criticalHitSounds.Length)]);
             if (!useScriptableObjectHealth) {
@@ -92,16 +91,26 @@ public class HealthSystem : MonoBehaviour, ITarget, IHitbox
                 currentHealth.Value -= data.amount * 2;
             }
         } else {
+            bool splat = false;
             switch (data.impactType) {
                 case DamageImpactType.Sharp:
                     audioSource.PlayOneShot(sharpHitSounds[UnityEngine.Random.Range(0, sharpHitSounds.Length)]);
+                    splat = true;
                     break;
                 case DamageImpactType.Blunt:
                     audioSource.PlayOneShot(bluntHitSounds[UnityEngine.Random.Range(0, bluntHitSounds.Length)]);
+                    splat = true;
                     break;
                 default:
                     break;
             }
+            if (splat) {
+                ParticleSystem bloodSplatter = bloodSplatterPool.Get();
+                bloodSplatter.transform.position = transform.position + new Vector3(UnityEngine.Random.Range(-bloodSplatterOffset.x, bloodSplatterOffset.x), UnityEngine.Random.Range(-bloodSplatterOffset.y, bloodSplatterOffset.y), 0f);
+                bloodSplatter.transform.eulerAngles = new Vector3(0, 0, UnityEngine.Random.Range(0, 360));
+                bloodSplatter.Play();
+            }
+
             if (!useScriptableObjectHealth) {
                 _currentHealth -= data.amount;
             }

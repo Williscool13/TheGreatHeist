@@ -7,9 +7,14 @@ using UnityEngine;
 public class DialogueResponse : MonoBehaviour
 {
 
-    [SerializeField] private string dialogue;
-
+    [TextArea(5,15)][SerializeField] private string dialogue;
+    
     [SerializeField] private TypewriterByCharacter typeWriter;
+
+
+    private void Start() {
+        typeWriter.ShowText("");
+    }
 
     [Button("Test Dialogue")]
     public void WriteDialogue() {

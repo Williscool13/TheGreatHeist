@@ -42,6 +42,21 @@ namespace Traps
             }
         }
 
+        [Button("TriggerTest")]
+        void Trigger() {
+            for (int i = 0; i < responses.Length; i++) {
+                responses[i].Trigger();
+            }
+
+            if (!_pressed) {
+                spriteRenderer.sprite = pressed;
+                source.PlayOneShot(click);
+                timer = triggerDuration;
+                _pressed = true;
+            }
+        }
+
+
         private void OnTriggerExit2D(Collider2D collision) {
             if (occupants.Contains(collision.gameObject)) {
                 occupants.Remove(collision.gameObject);

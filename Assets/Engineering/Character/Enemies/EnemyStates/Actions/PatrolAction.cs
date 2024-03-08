@@ -10,6 +10,7 @@ namespace EnemyFiniteStateMachine
     public class PatrolAction : EnemyStateAction
     {
         public override void Enter(EnemyStateMachine machine) {
+            Debug.Log("Entering Patrol");
         }
 
         public override void Execute(EnemyStateMachine machine) {
@@ -26,7 +27,10 @@ namespace EnemyFiniteStateMachine
                 return;
             }
                 
-            if (machine.IsPatrolling()) return;
+            if (machine.IsPatrolling()) {
+                Debug.Log("Currently Patrolling");
+                return;
+            }
 
             machine.IncremenetPatrolIndex();
             machine.Patrol(
@@ -36,7 +40,11 @@ namespace EnemyFiniteStateMachine
         }
 
         public override void Exit(EnemyStateMachine machine) {
-            machine.StopPatrol();
+            if (machine.IsPatrolling()) {
+                Debug.Log("Adding last patrol command to queue");
+                machine.AddInvestigatePath(machine.GetCurrentPatrolTarget());
+                machine.StopPatrol();
+            }
             machine.Movement.StopMovement();
             machine.Aim.StopAllAim();
         }

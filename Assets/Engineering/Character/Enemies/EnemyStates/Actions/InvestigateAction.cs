@@ -12,6 +12,7 @@ namespace EnemyFiniteStateMachine
         public override void Enter(EnemyStateMachine machine) {
             machine.Movement.SetMovementProperties(machine.InvestigateMoveSpeed, CharacterMovement.Movement.Standard);
 
+            Debug.Log("adding investigate path");
             machine.AddInvestigatePath(machine.transform.position);
 
             machine.InvestigateTimestamp = Time.time + machine.InvestigateTimeout;

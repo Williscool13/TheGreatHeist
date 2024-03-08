@@ -19,6 +19,7 @@ namespace EnemyFiniteStateMachine
                 Vector2 targetPos = machine.PreviousCollisionData.collisionPoint;
                 //machine.SetInvestigationPoint(targetPos); 
                 machine.Attention.IncreaseAttention(0.5f, targetPos);
+                machine.AcknowledgePreviousCollisionData();
                 return true;
             }
 

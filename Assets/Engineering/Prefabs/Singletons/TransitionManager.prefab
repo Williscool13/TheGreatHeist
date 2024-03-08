@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5701132968499612386}
   - component: {fileID: 2375874220182527103}
+  - component: {fileID: 192245992774642571}
   m_Layer: 0
   m_Name: TransitionManager
   m_TagString: Untagged
@@ -51,3 +52,15 @@ MonoBehaviour:
   transitionLingerEvent: {fileID: 11400000, guid: 32aee7149d460054784a115294d8aa7d,
     type: 2}
   transitionEndEvent: {fileID: 11400000, guid: 160e1ee56b67e5144babebe25fcfdb14, type: 2}
+--- !u!114 &192245992774642571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3220663996388556078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdae9a00ce045ba4e8799c7573b500c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

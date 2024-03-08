@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,17 +8,34 @@ namespace GameSceneManager
 {
     public class SceneManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start() {
+        public static SceneManager Instance { get; private set; }
+        private void Awake() {
+            if (Instance != null) {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
-        // Update is called once per frame
-        void Update() {
+        string targetScene;
+        public void LoadScene(string target) {
+            TransitionManager.Instance.Transition(0.5f, 0.75f, null);
+            TransitionManager.Instance.transitionLinger += OnTransitionLinger_ChangeScene;
+            targetScene = target;
+        }
 
+        void OnTransitionLinger_ChangeScene(object o, EventArgs e) {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(targetScene);
+            TransitionManager.Instance.transitionLinger -= OnTransitionLinger_ChangeScene;
         }
     }
 
     public static class SceneReferences {
         public static string Sandbox = "SandboxScene";
+        public static string Overworld = "Overworld";
+        public static string Underground = "Underground";
+        public static string Final = "Final";
     }
 }

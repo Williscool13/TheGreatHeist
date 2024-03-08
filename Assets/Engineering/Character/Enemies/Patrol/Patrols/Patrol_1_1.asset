@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e11ec3077596b7b4583c58cd6049f819, type: 3}
   m_Name: Patrol_1_1
   m_EditorClassIdentifier: 
-  patrolData: []
+  patrolData:
+  - patrolPosition: {x: 1.5, y: -8.5}
+    patrolFace: {x: -1, y: 0}
+  - patrolPosition: {x: -4, y: -8.5}
+    patrolFace: {x: 0, y: 0}

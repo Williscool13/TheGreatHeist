@@ -17,7 +17,7 @@ namespace EnemyAI
             for (int i = 0; i < patrolPoints.Length; i++) {
                 patrol.patrolData[i] = new PatrolData() {
                     patrolPosition = patrolPoints[i].position,
-                    patrolFace = patrolPoints[i].up
+                    patrolFace = patrolPoints[i].right
                 };
             }
         }

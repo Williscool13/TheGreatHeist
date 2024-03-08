@@ -42,7 +42,12 @@ public class EnemyCorporeality : MonoBehaviour
     public event EventHandler OnTurnIncorporeal;
     public event EventHandler OnTurnCorporeal;
     private void Start() {
-        corpoTimestamp = Time.time + autoCorporealityTime;
+        if (randomAutoCorporeality) {
+            corpoTimestamp = Time.time + UnityEngine.Random.Range(randomAutoCorporealityRange.x, randomAutoCorporealityRange.y);
+        }
+        else {
+            corpoTimestamp = Time.time + autoCorporealityTime;
+        }
         health.OnDeath += OnDeath_Disable;
     }
     private void Update() {

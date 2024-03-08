@@ -11,6 +11,8 @@ namespace Traps
         [SerializeField] int damage;
         [SerializeField] float damageCooldown = 2.0f;
 
+        [SerializeField] private bool playerOnly = true;
+
         [Title("MovementProperties")]
         [SerializeField] private float extendTime = 1.0f;
         [SerializeField] private float returnTime = 3.0f;
@@ -36,6 +38,9 @@ namespace Traps
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
+            if (playerOnly) {
+                if (collision.gameObject.tag != "Player") return;
+            }
             if (collision == null) return;
             if (idTimestampDamaged.ContainsKey(collision.gameObject.GetInstanceID())) {
                 if (idTimestampDamaged[collision.gameObject.GetInstanceID()] > Time.time) {

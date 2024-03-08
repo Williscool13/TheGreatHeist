@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using EnemyAI;
 using System.Linq;
 using System;
+using Febucci.UI.Core;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -37,8 +38,6 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] float initialPatrolRotateTime = 2f;
     [SerializeField] float patrolRotateSpeedTime = 2f;
 
-    [Title("Idle Properties")]
-    [SerializeField] Vector2 patrolIdleTime = new Vector2(2.5f, 4.5f);
     
     [Title("Shoot Properties")]
     [SerializeField] float shootCooldown = 1.0f;
@@ -49,7 +48,9 @@ public class EnemyStateMachine : MonoBehaviour
 
     [Title("Patrol Properties")]
     [SerializeField] private bool patrol;
-    [ShowIf("patrol")][SerializeField] private Patrol patrolRoute;
+    [ShowIf("patrol")][SerializeField] private bool randomPatrol;
+    [ShowIf("@patrol && !randomPatrol")][SerializeField] private Patrol patrolRoute;
+    [SerializeField] Vector2 patrolIdleTime = new Vector2(2.5f, 4.5f);
     float patrolIdleTimer = 0;
 
     Vector2 lastKnownPosition;
@@ -98,6 +99,12 @@ public class EnemyStateMachine : MonoBehaviour
     private EnemyCollisionData previousCollisionData = new EnemyCollisionData() { isColliding = false };
     public EnemyCollisionData PreviousCollisionData => previousCollisionData;
 
+    public void AcknowledgePreviousCollisionData() {
+        previousCollisionData = new EnemyCollisionData() {
+            isColliding = false,
+        };
+    }
+
     public void OnFlareReleased_RemoveFromInvestigatedFlares(object o, LightFlare flare) {
         if (previousInvestigatedFlares.Contains(flare.gameObject)) {
             previousInvestigatedFlares.Remove(flare.gameObject);
@@ -129,7 +136,7 @@ public class EnemyStateMachine : MonoBehaviour
         if (CurrentState != null) {
             CurrentState.Exit(this);
         }
-        Debug.Log("Changing State");
+        Debug.Log("Changing State to " + state.name);
         CurrentState = state;
         CurrentState.Enter(this);
     }
@@ -171,12 +178,16 @@ public class EnemyStateMachine : MonoBehaviour
 
     #region Patrol Functions
     public bool HasPatrolRoute() {
-        return patrolRoute != null;
+        return patrol && !randomPatrol;
     }
     public bool IsPatrolling() {
         return CurrentPatrolSequence != null && CurrentPatrolSequence.Active;
     }
     public void IncremenetPatrolIndex() {
+        if (patrolRoute.patrolData.Length == 0) {
+            Debug.LogError("No Patrol data, likely set up incorrectly");
+            return;
+        }
         PatrolIndex = (PatrolIndex + 1) % patrolRoute.patrolData.Length;
     }
 
@@ -188,11 +199,18 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     public void RandomPatrol() {
-        if (!patrol) return;
+        if (!randomPatrol) return;
         Aim.RandomSweep(true);
         PatrolIdleTimer = PatrolIdleTime;
     }
 
+    public Vector2 GetCurrentPatrolTarget() {
+        if (IsPatrolling()) {
+            return CurrentPatrolSequence.FinalTargetPosition;
+        }
+        Debug.LogWarning("No current patrol target, will return 0,0 which is usually incorrect");
+        return Vector2.zero;
+    }
     public void StopPatrol() {
         if (IsPatrolling()) {
             CurrentPatrolSequence.Stop();
@@ -203,12 +221,14 @@ public class EnemyStateMachine : MonoBehaviour
     #region Backtrack Functions
     PatrolSequence currentBacktrackSequence;
     [ReadOnly][SerializeField] Stack<Vector2> backtrackHistory = new Stack<Vector2>();
+    [ReadOnly][SerializeField] Stack<Vector2> backtrackRotationHistory = new Stack<Vector2>();
     public int backtrackCount => backtrackHistory.Count;
     [ReadOnly]
     [SerializeField] List<Vector2> investigatePath = new List<Vector2>();
     public void AddInvestigatePath(Vector2 pos) {
         Debug.Log("Adding " + pos + " to the queue of move commands");
         backtrackHistory.Push(pos);
+        backtrackRotationHistory.Push((Vector2)transform.right);
         investigatePath.Add(pos);
     }
     public bool IsBacktracking() {
@@ -224,14 +244,17 @@ public class EnemyStateMachine : MonoBehaviour
         }
 
         Vector2 peek = backtrackHistory.Peek();
+        Vector2 rPeek = backtrackRotationHistory.Peek();
+        Debug.Log("backtracking to " + peek.ToString());
         investigatePath.RemoveAt(0);
-        currentBacktrackSequence = new PatrolSequence(movement, aim, transform, peek, peek - (Vector2)transform.position, moveSpeed, initialPatrolRotateTime, patrolRotateSpeedTime);
+        currentBacktrackSequence = new PatrolSequence(movement, aim, transform, peek, rPeek, moveSpeed, initialPatrolRotateTime, patrolRotateSpeedTime);
         currentBacktrackSequence.OnComplete += OnBacktrackSequenceComplete;
         currentBacktrackSequence.Start();
     }
 
     void OnBacktrackSequenceComplete(object o, EventArgs e) {
         backtrackHistory.Pop();
+        backtrackRotationHistory.Pop();
         if (o is PatrolSequence p) {
             p.OnComplete -= OnBacktrackSequenceComplete;
         }
@@ -253,7 +276,7 @@ public class EnemyStateMachine : MonoBehaviour
 
 
 
-    private void OnCollisionStay2D(Collision2D collision) {
+    private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.CompareTag("Player")) {
             previousCollisionData = new EnemyCollisionData() {
                 isColliding = true,
@@ -261,7 +284,7 @@ public class EnemyStateMachine : MonoBehaviour
                 collision = collision,
                 collisionPoint = collision.GetContact(0).point,
                 collisionNormal = collision.GetContact(0).normal,
-                collisionDirection = collision.GetContact(0).point - (Vector2)transform.position
+                collisionDirection = collision.GetContact(0).point - (Vector2)transform.position,
             };
             // contact with player, add to potential investigation data
         }
@@ -284,6 +307,8 @@ public class EnemyStateMachine : MonoBehaviour
         public Vector2 collisionPoint;
         public Vector2 collisionNormal;
         public Vector2 collisionDirection;
+
+
 
     }
 

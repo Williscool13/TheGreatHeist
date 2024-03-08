@@ -35,12 +35,13 @@ public class TransitionManager : MonoBehaviour
         circleWipeMaterial.SetFloat("_Radius", 1.5f);
 
     }
+
     public void Transition(float initialDelay, float lingerTime, Transform target) {
         //Vector2 baseOffset = Vector2.one * 0.5f;
         currentTransition = DOTween.Sequence()
             .AppendInterval(initialDelay)
             .AppendCallback(() => {
-                Vector2 offset = Camera.main.WorldToViewportPoint(target.position);
+                Vector2 offset = target == null ? Vector2.one * 0.5f : Camera.main.WorldToViewportPoint(target.position);
                 circleWipeMaterial.SetVector("_Offset", offset);
                 transitionStartEvent.Raise(null);
                 transitionStart?.Invoke(this, EventArgs.Empty);

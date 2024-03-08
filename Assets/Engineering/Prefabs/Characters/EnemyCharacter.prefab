@@ -249,12 +249,13 @@ MonoBehaviour:
   investigateMoveSpeed: 5
   initialPatrolRotateTime: 2
   patrolRotateSpeedTime: 2
-  patrolIdleTime: {x: 2.5, y: 4.5}
   shootCooldown: 1
   shootRange: 10
   investigateTimeout: 5
   patrol: 1
+  randomPatrol: 0
   patrolRoute: {fileID: 11400000, guid: 636cbabdff79f2e4abe9be13a5fad37d, type: 2}
+  patrolIdleTime: {x: 2.5, y: 4.5}
   investigatePath: []
 --- !u!58 &7354037469091693439
 CircleCollider2D:
@@ -542,7 +543,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0
   m_Pitch: 0.69
   Loop: 0
   Mute: 0
@@ -1000,7 +1001,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4117647, g: 0.40392157, b: 1, a: 1}
   m_Intensity: 0.25
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
@@ -1164,8 +1165,6 @@ MonoBehaviour:
   bloodSplatterPrefab: {fileID: 7096925019235083253, guid: 7e182f5400d45324fa7cafe717f1b04e,
     type: 3}
   bloodSplatterOffset: {x: 0.5, y: 0.5}
-  deathParticlesPrefab: {fileID: 8000883549247440288, guid: 59cb0f0efb5b1e94892b3451f8a89f80,
-    type: 3}
   bulletTimeOnDeath: 0
   sharpHitSounds:
   - {fileID: 8300000, guid: 045e3aa9f0c0f6e4189a4cf1bca8175e, type: 3}

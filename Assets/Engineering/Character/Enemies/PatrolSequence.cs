@@ -18,10 +18,15 @@ public class PatrolSequence
     EnemyAim unitAim;
     CharacterMovement unitMovement;
     Transform unitTransform;
+
+    Vector2 finalTargetPosition;
+    public Vector2 FinalTargetPosition => finalTargetPosition;
     public PatrolSequence(CharacterMovement movement, EnemyAim aim, Transform unit, Vector2 target, Vector2 finalFaceDirection, float speed, float initialPatrolRotateTime, float patrolRotateTime) {
         Vector2 moveDirection = (target - (Vector2)unit.transform.position).normalized;
         float initialTimeToRotate = ((Vector2.Dot(unit.transform.right, moveDirection) - 1.0f) / -2f) * initialPatrolRotateTime;
         float finalTimeToRotate = ((Vector2.Dot(moveDirection, finalFaceDirection.normalized) - 1.0f) / -2f) * patrolRotateTime;
+
+        finalTargetPosition = target;
 
         unitAim = aim;
         unitMovement = movement;
@@ -52,21 +57,28 @@ public class PatrolSequence
         moveSequence = DOTween.Sequence()
             .AppendInterval(Time.deltaTime)
             .AppendCallback(() => {
-                movement.Move(moveDirection);
+                Vector2 dir = (target - (Vector2)unit.transform.position).normalized;
+                movement.Move(dir);
+                aim.RotateTowards(dir);
             })
             .AppendCallback(() => {
-                float currentDistanceFromBase = Vector2.Distance(unit.transform.position, basePos);
-                if (targetDistanceFromBase < currentDistanceFromBase) {
+                if (Vector2.Distance(unit.transform.position, target) < 0.1f) {
                     movement.SetMovementProperties(0, CharacterMovement.Movement.None);
                     moveSequence.Kill();
                 }
+                /*float currentDistanceFromBase = Vector2.Distance(unit.transform.position, basePos);
+                Debug.Log("target dist from base " + targetDistanceFromBase + " current dist from base " + currentDistanceFromBase + 0.3f);
+                if (targetDistanceFromBase < currentDistanceFromBase + 0.3f) {
+                    movement.SetMovementProperties(0, CharacterMovement.Movement.None);
+                    moveSequence.Kill();
+                }*/
             })
             .SetLoops(-1)
             .OnKill(() => {
                 moveSequence = null;
                 movement.SetMovementProperties(0, CharacterMovement.Movement.None);
                 movement.StopMovement();
-                finalRotateSequence.Play();
+                finalRotateRequest.Play();
             });
 
 
@@ -83,7 +95,8 @@ public class PatrolSequence
 
         finalRotateSequence = DOTween.Sequence()
             .AppendInterval(finalTimeToRotate)
-            .OnKill(() => { 
+            .OnKill(() => {
+                Debug.Log("Patrol Sequence Finished");
                 finalRotateSequence = null; 
                 Active = false; 
                 OnComplete?.Invoke(this, EventArgs.Empty);
