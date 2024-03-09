@@ -9,6 +9,7 @@ using UnityEngine;
 public class TransitionManager : MonoBehaviour
 {
     [SerializeField] private Material circleWipeMaterial;
+    [SerializeField] private Material fadeMaterial;
     [SerializeField] private float transitionDuration;
 
     [SerializeField] private NullEvent transitionStartEvent;
@@ -32,13 +33,14 @@ public class TransitionManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(this);
-        circleWipeMaterial.SetFloat("_Radius", 1.5f);
+        //circleWipeMaterial.SetFloat("_Radius", 1.5f);
+
+        fadeMaterial.SetFloat("_Blackness", 0);
 
     }
 
     public void Transition(float initialDelay, float lingerTime, Transform target) {
-        //Vector2 baseOffset = Vector2.one * 0.5f;
-        currentTransition = DOTween.Sequence()
+        /*currentTransition = DOTween.Sequence()
             .AppendInterval(initialDelay)
             .AppendCallback(() => {
                 Vector2 offset = target == null ? Vector2.one * 0.5f : Camera.main.WorldToViewportPoint(target.position);
@@ -58,7 +60,30 @@ public class TransitionManager : MonoBehaviour
                 transitionEndEvent.Raise(null); 
                 transitionEnd?.Invoke(this, EventArgs.Empty);
             })
-            .OnKill(() => currentTransition = null);
+            .OnKill(() => currentTransition = null);*/
+
+        currentTransition = DOTween.Sequence()
+            .AppendInterval(initialDelay)
+            .AppendCallback(() => {
+                    transitionStartEvent.Raise(null);
+                    transitionStart?.Invoke(this, EventArgs.Empty);
+                })
+
+            .Append(DOTween.To(() => fadeMaterial.GetFloat("_Blackness"), x => fadeMaterial.SetFloat("_Blackness", x), 1, transitionDuration))
+            .AppendCallback(() => {
+                transitionLingerEvent.Raise(null);
+                transitionLinger?.Invoke(this, EventArgs.Empty);
+            })
+            .AppendInterval(lingerTime)
+            .Append(DOTween.To(() => fadeMaterial.GetFloat("_Blackness"), x => fadeMaterial.SetFloat("_Blackness", x), 0, transitionDuration))
+            .AppendCallback(() => {
+                transitionEndEvent.Raise(null); 
+                transitionEnd?.Invoke(this, EventArgs.Empty);
+            })
+            .OnKill(() => {
+                currentTransition = null;
+            });
+
     }
 
     public bool IsTransitioning() {

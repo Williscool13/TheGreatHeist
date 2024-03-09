@@ -28,7 +28,6 @@ namespace EnemyFiniteStateMachine
             }
                 
             if (machine.IsPatrolling()) {
-                Debug.Log("Currently Patrolling");
                 return;
             }
 

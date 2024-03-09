@@ -83,7 +83,7 @@ public class EnemyAttention : MonoBehaviour
         OnAttentionInvestigate?.Invoke(this, new AttentionInvestigateEventArgs(targetPosition));
         if (Time.time > investigateSoundTimestamp) {
             investigateSoundTimestamp = Time.time + investigateSoundCooldown;
-            audioSource.PlayOneShot(investigateSounds[UnityEngine.Random.Range(0, investigateSounds.Length)]);
+            //audioSource.PlayOneShot(investigateSounds[UnityEngine.Random.Range(0, investigateSounds.Length)]);
         }
     }
 
@@ -93,7 +93,7 @@ public class EnemyAttention : MonoBehaviour
     /// <param name="value"></param>
     /// <param name="targetPosition"></param>
     /// <param name="target"></param>
-    /// <param name="hitbox"></param>
+    /// <param name="hitbox"></param>z
     public void IncreaseAttention(float value, Vector2 targetPosition, Transform target, IHitbox hitbox) {
         if (requiresCorporeality && !corporeality.IsCorporeal()) {
             return;
