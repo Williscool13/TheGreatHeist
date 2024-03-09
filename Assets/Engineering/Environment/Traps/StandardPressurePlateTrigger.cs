@@ -34,6 +34,13 @@ namespace Traps
             PlaySound();
         }
 
+        [Button("Test Trigger")]
+        public void TestTrigger() {
+            for (int i = 0; i < responses.Length; i++) {
+                responses[i].Trigger();
+            }
+        }
+
         private void OnTriggerExit2D(Collider2D collision) {
             if (occupants.Contains(collision.gameObject)) {
                 occupants.Remove(collision.gameObject);

@@ -22,6 +22,10 @@ namespace Traps
         bool trapActive = false;
         Vector2 basePos;
 
+        [Title("Sound")]
+        [SerializeField] private AudioClip moveSound;
+        [SerializeField] private AudioSource source;
+
         private void Start() {
             basePos = transform.position;
         }
@@ -29,6 +33,7 @@ namespace Traps
         public void TriggerSpikeTrap() {
             if (trapActive) return;
             trapActive = true;
+            source.PlayOneShot(moveSound);
             DOTween.Sequence()
                 .Append(transform.DOMove(basePos + movement, extendTime).SetEase(Ease.Linear))
                 .AppendInterval(lingerTime)
