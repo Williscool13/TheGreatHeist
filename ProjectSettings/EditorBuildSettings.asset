@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Final.unity
     guid: 8024325e476a4ce41a22bc3a22e57bdf
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: f50c064a0a037b541ae9b4959e051450
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

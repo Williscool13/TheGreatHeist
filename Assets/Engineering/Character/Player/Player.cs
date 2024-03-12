@@ -33,10 +33,13 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
-        playerCharacter.SetInputs(move, look, firePressed, fireHeld, 
-            recoverPressed, recoverHeld, flarePressed, flareHeld, 
-            sprintPressed, sprintHeld, dashPressed, dashHeld, 
+        if (playerCharacter != null) {
+            playerCharacter.SetInputs(move, look, firePressed, fireHeld,
+            recoverPressed, recoverHeld, flarePressed, flareHeld,
+            sprintPressed, sprintHeld, dashPressed, dashHeld,
             interactPressed, interactHeld);
+        }
+        
 
 
         firePressed = false;
@@ -137,6 +140,16 @@ public class Player : MonoBehaviour
         }
         else {
             interactHeld = false;
+        }
+    }
+
+    public void OnEscape(InputValue value) {
+        if (value.isPressed) {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
         }
     }
 }

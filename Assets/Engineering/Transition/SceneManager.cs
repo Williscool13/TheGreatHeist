@@ -1,3 +1,4 @@
+using ScriptableObjectDependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace GameSceneManager
         }
 
         string targetScene;
+        [SerializeField] private NullEvent sceneChangeStart;
         public void LoadScene(string target) {
             TransitionManager.Instance.Transition(0.5f, 0.75f, null);
             TransitionManager.Instance.transitionLinger += OnTransitionLinger_ChangeScene;
@@ -27,6 +29,7 @@ namespace GameSceneManager
         }
 
         void OnTransitionLinger_ChangeScene(object o, EventArgs e) {
+            sceneChangeStart.Raise(null);
             UnityEngine.SceneManagement.SceneManager.LoadScene(targetScene);
             TransitionManager.Instance.transitionLinger -= OnTransitionLinger_ChangeScene;
         }
@@ -37,5 +40,6 @@ namespace GameSceneManager
         public static string Overworld = "Overworld";
         public static string Underground = "Underground";
         public static string Final = "Final";
+        public static string Credits = "Credits";
     }
 }

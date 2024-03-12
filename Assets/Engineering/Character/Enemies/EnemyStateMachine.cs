@@ -129,7 +129,15 @@ public class EnemyStateMachine : MonoBehaviour
             SetInvestigationPoint(e.targetPosition);
         };
     }
+    bool exit = false;
+    public void Exit() {
+        if (IsPatrolling()){
+            StopPatrol();
+        }
+        exit = true;
+    }
     void Update() {
+       if (exit) return;
         CurrentState.Execute(this);
     }
     public void ChangeState(EnemyState state) {
